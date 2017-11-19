@@ -1,23 +1,33 @@
 package models;
+
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.*;
+import io.ebean.*;
+import play.data.format.*;
+import play.data.validation.*;
 
 @Entity
-@Table(name = "actor", schema = "sakila", catalog = "")
-public class ActorEntity {
-    private Short actorId;
+@Table(name = "actor")
+public class ActorEntity extends Model {
+    private Long actorId;
+	
+	@Constraints.Required
     private String firstName;
+	
+	@Constraints.Required
     private String lastName;
+	
     private Timestamp createdAt;
     private Timestamp updatedAt;
 
     @Id
     @Column(name = "actor_id", nullable = false)
-    public Short getActorId() {
+    public Long getActorId() {
         return actorId;
     }
 
-    public void setActorId(Short actorId) {
+    public void setActorId(Long actorId) {
         this.actorId = actorId;
     }
 
@@ -86,4 +96,10 @@ public class ActorEntity {
         result = 31 * result + (updatedAt != null ? updatedAt.hashCode() : 0);
         return result;
     }
+	
+	/**
+	 * Query Builder
+	 * @return Finder
+	 */
+	public static final Finder<Long, ActorEntity> find = new Finder<>(ActorEntity.class);
 }

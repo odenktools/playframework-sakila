@@ -1,0 +1,35 @@
+@(accountMap: ActorEntity)
+@import helper._
+
+@views.html.main("Edit an Actor") {
+	<div class="col-md-12">
+		<div class="box box-primary">
+			<div class="box-header with-border">
+				<h3 class="box-title">Edit an Actor</h3>
+			</div>
+            <!-- form start -->
+			
+			@form(CSRF( controllers.routes.ActorController.save(accountMap.getActorId()) ) ) {
+               <div class="box-body"> 
+                <div class="form-group">
+                  <label for="first_name">First Name</label>
+                  <input id="first_name" name="first_name" class="form-control" placeholder="Enter first name" value="@accountMap.getFirstName()">
+                </div>
+
+                <div class="form-group">
+                  <label for="last_name">Last Name</label>
+                  <input id="last_name" name="last_name" class="form-control" placeholder="Enter last name" value="@accountMap.getLastName()">
+                </div>
+              </div>
+              <!-- /.box-body -->
+
+              <div class="box-footer">
+				<a href="@controllers.routes.ActorController.index()", class="btn btn-default">Back</a>
+				<button type="submit" class="btn btn-info pull-right">Submit</button>
+              </div>
+			}
+			<!-- form end -->
+			
+        </div>
+	</div>
+}

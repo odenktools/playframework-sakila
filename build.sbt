@@ -16,5 +16,6 @@ libraryDependencies ++= Seq(
   "org.webjars" % "swagger-ui" % "2.1.8-M1",
   "org.reflections" % "reflections" % "0.9.8" notTransitive (), 
   "commons-io" % "commons-io" % "2.4",
-  "org.apache.poi" % "poi" % "3.8","org.apache.poi" % "poi-ooxml" % "3.9"
+  "org.apache.poi" % "poi" % "3.8","org.apache.poi" % "poi-ooxml" % "3.9",
+  "org.apache.httpcomponents" % "httpclient" % "4.3.3"
 )

@@ -8,3 +8,10 @@ GET     /                           controllers.HomeController.index
 # ============================== .START ASSETS ==============================
 GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)
 # ============================== .END ASSETS ==============================
+
+# ============================== .ACTOR
+GET            /actors                                        controllers.ActorController.index()
+GET            /actors/list                                   controllers.ActorController.dataList()
+GET            /actors/detail                                 controllers.ActorController.detail(id:Long ?= 0)
+POST            /actors/save                                  controllers.ActorController.save(id:Long ?= 0)
+GET            /actors/add                                    controllers.ActorController.add()
