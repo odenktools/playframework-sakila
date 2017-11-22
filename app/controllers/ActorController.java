@@ -81,7 +81,7 @@ public class ActorController extends Controller {
 
 		Integer offset = Integer.valueOf(params.get("offset")[0]);
 
-		String sortBy = "first_name";
+		String sortBy = "actor_id";
 
 		// ============ ./START QUERY BUILDER
 		Query<ActorEntity> queryBuilder = Ebean.find(ActorEntity.class);
@@ -131,7 +131,7 @@ public class ActorController extends Controller {
 	public Result detail(long id) {
 		ActorEntity actorEntity = ActorEntity.find.ref(id);
 		Form<ActorEntity> formData = formFactory.form(ActorEntity.class).fill(actorEntity);
-		return ok(views.html.account.detail.render(actorEntity));
+		return ok(views.html.account.detail.render("Edit an Actor", actorEntity));
 	}
 
 	/**
@@ -143,19 +143,58 @@ public class ActorController extends Controller {
 		
 		ActorEntity actorEntity = null;
 		
+		Boolean onError = false;
+		
 		if(id != 0){
 			actorEntity = ActorEntity.find.byId(id);
 		}else{
 			actorEntity = new ActorEntity();
 		}
+		
 		DynamicForm form = formFactory.form().bindFromRequest();
 		String first_name = form.get("first_name").toString();
 		String last_name = form.get("last_name").toString();
 		
-		actorEntity.setFirstName(first_name);
-		actorEntity.setLastName(last_name);
+		if(isEmpty(first_name)){
+			flash("error", "Please fill ``first_name``");
+			onError = true;
+		}else if(isEmpty(last_name)){
+			flash("error", "Please fill ``last_name``");
+			onError = true;
+		}
+
+		if (!onError) {
+			actorEntity.setFirstName(first_name);
+			actorEntity.setLastName(last_name);
+			actorEntity.save();
+		}else{
+			return redirect(routes.ActorController.add());
+		}
+
+		/* //USING FORM MODELS
+		Form<ActorEntity> form = this.formFactory.form(ActorEntity.class).bindFromRequest();
 		
-		actorEntity.save();
+		if (form.hasErrors()) {
+			flash("error", "Please correct errors bellow.");
+			return redirect(routes.ActorController.add());
+		}
+
+		ActorEntity newComputerData = form.get();
+
+		if(form.get().getActorId() != null){
+			actorEntity = ActorEntity.find.byId(form.get().getActorId());
+			
+			actorEntity.setFirstName(newComputerData.getFirstName());
+			actorEntity.setLastName(newComputerData.getLastName());
+			actorEntity.update();
+			
+		}else{
+			actorEntity = new ActorEntity();
+			actorEntity.setFirstName(newComputerData.getFirstName());
+			actorEntity.setLastName(newComputerData.getLastName());
+			actorEntity.save();
+		}		
+		*/
 		
 		return GO_HOME;
 	}
@@ -166,7 +205,7 @@ public class ActorController extends Controller {
 	 */
     public Result add() {
 		ActorEntity actorEntity = new ActorEntity();
-		return ok(views.html.account.detail.render(actorEntity));
+		return ok(views.html.account.detail.render("Add an Actor", actorEntity));
     }
 	
 	/**

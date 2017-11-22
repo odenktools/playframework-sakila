@@ -1,25 +1,38 @@
-@(accountMap: ActorEntity)
+@(title: String, accountMap: ActorEntity)
 @import helper._
 
 @views.html.main("Edit an Actor") {
 	<div class="col-md-12">
 		<div class="box box-primary">
 			<div class="box-header with-border">
-				<h3 class="box-title">Edit an Actor</h3>
+				<h3 class="box-title">@title</h3>
 			</div>
             <!-- form start -->
-			
-			@form(CSRF( controllers.routes.ActorController.save(accountMap.getActorId()) ) ) {
-               <div class="box-body"> 
+			@form(CSRF( controllers.routes.ActorController.save( accountMap.getActorId()) )) {
+               <div class="box-body">
+			   
+				@if(flash.containsKey("error")) {
+					<div class="alert alert-danger alert-dismissible">
+						<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+						<h4><i class="icon fa fa-check"></i> Alert!</h4>
+						@flash.get("error")
+					</div>
+				}
+
+			    <!-- .form-group -->
                 <div class="form-group">
                   <label for="first_name">First Name</label>
                   <input id="first_name" name="first_name" class="form-control" placeholder="Enter first name" value="@accountMap.getFirstName()">
                 </div>
+				<!-- /.form-group -->
 
+				<!-- .form-group -->
                 <div class="form-group">
                   <label for="last_name">Last Name</label>
                   <input id="last_name" name="last_name" class="form-control" placeholder="Enter last name" value="@accountMap.getLastName()">
                 </div>
+				<!-- /.form-group -->
+
               </div>
               <!-- /.box-body -->
 
@@ -29,7 +42,6 @@
               </div>
 			}
 			<!-- form end -->
-			
         </div>
 	</div>
 }

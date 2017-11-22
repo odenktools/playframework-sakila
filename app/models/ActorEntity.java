@@ -5,11 +5,17 @@ import java.sql.Timestamp;
 import java.util.*;
 import io.ebean.*;
 import play.data.format.*;
-import play.data.validation.*;
 
+import play.data.validation.Constraints;
+import play.data.validation.Constraints.Validate;
+import play.data.validation.Constraints.Validatable;
+import play.data.validation.ValidationError;
+import javax.validation.groups.Default;
+
+@Validate
 @Entity
 @Table(name = "actor")
-public class ActorEntity extends Model {
+public class ActorEntity extends Model implements Validatable<List<ValidationError>> {
     private Long actorId;
 	
 	@Constraints.Required
@@ -18,7 +24,13 @@ public class ActorEntity extends Model {
 	@Constraints.Required
     private String lastName;
 	
+	@Temporal(TemporalType.TIMESTAMP)
+	@Formats.DateTime(pattern="yyyy-MM-dd HH:mm:ss")
+	@Column(updatable=false)
     private Timestamp createdAt;
+	
+	@Temporal(TemporalType.TIMESTAMP)
+	@Formats.DateTime(pattern="yyyy-MM-dd HH:mm:ss")
     private Timestamp updatedAt;
 
     @Id
@@ -46,7 +58,7 @@ public class ActorEntity extends Model {
     public String getLastName() {
         return lastName;
     }
-
+	
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
@@ -102,4 +114,23 @@ public class ActorEntity extends Model {
 	 * @return Finder
 	 */
 	public static final Finder<Long, ActorEntity> find = new Finder<>(ActorEntity.class);
+	
+	public static boolean isEmpty(CharSequence str) {
+		if (str == null || str.length() == 0)
+			return true;
+		else
+			return false;
+	}
+
+	@Override
+	public List<ValidationError> validate() {
+        List<ValidationError> errors = new ArrayList<ValidationError>();
+        if(this.firstName == null || isEmpty(this.firstName)) {
+            errors.add(new ValidationError("firstName", "Invalid firstName"));
+        }
+        if(this.lastName == null || isEmpty(this.lastName)) {
+            errors.add(new ValidationError("lastName", "Invalid lastName"));
+        }
+        return errors;
+    }
 }
