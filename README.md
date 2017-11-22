@@ -1,7 +1,7 @@
 # Java Playframework Hackathon
 
 * We use playframework 2.6.x
-* We use [AdminLTE] (https://adminlte.io/)
+* We use [AdminLTE](https://adminlte.io/)
 * We use Ebean
 * We use MySQL 5.x
 
@@ -30,5 +30,7 @@ Now open your browser then navigate to ```http://localhost:9000```
 ### References
 
 [Template](https://www.playframework.com/documentation/2.6.x/JavaTemplates)
+
 [Ebean](https://www.playframework.com/documentation/2.6.x/JavaEbean)
+
 [Form](https://www.playframework.com/documentation/2.6.x/JavaForms)
