@@ -29,8 +29,14 @@ Now open your browser then navigate to ```http://localhost:9000```
 
 ### References
 
+[What’s new in Play 2.6](https://www.playframework.com/documentation/2.6.x/Highlights26)
+
 [Template](https://www.playframework.com/documentation/2.6.x/JavaTemplates)
 
 [Ebean](https://www.playframework.com/documentation/2.6.x/JavaEbean)
 
 [Form](https://www.playframework.com/documentation/2.6.x/JavaForms)
+
+[Evolution On Production](https://stackoverflow.com/a/20840401)
+
+[Bootstrap Table](http://bootstrap-table.wenzhixin.net.cn/)
