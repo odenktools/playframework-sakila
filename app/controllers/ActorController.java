@@ -165,6 +165,8 @@ public class ActorController extends Controller {
 			flash("error", "Data failed deleted");
 		}
         
+		logger.debug("remove", deleted);
+		
 		return GO_HOME;
 	}
 
