@@ -10,19 +10,10 @@ db.default.password=""
 # EBEAN
 ebean.default="models.*"
 
-# Root logger:
-logger.root=ERROR
-
-# Logger used by the framework:
-logger.play=INFO
-
-# Logger provided to your application:
-logger.application=DEBUG
-
 # ========================= APPS CONFIG ======================
 
 # Secret key
-play.http.secret.key="QCY?tAnfk?aZ?iwrNwnxIlR6CTf:G3gf:90Latabg@5241AB`R5W:1uDFN];Ik@n"
+play.http.secret.key="G[rAS%3fp,jk&]Z_x|b#U+D{IG-Y&E!.YljMUOgf7zbArS9,U@!%xvE3Ih2Ae+4^"
 
 # The application languages
 play.i18n.langs = [ "en", "en-US", "id" ]
@@ -30,4 +21,6 @@ play.i18n.langs = [ "en", "en-US", "id" ]
 # Swagger
 swagger.api.basepath="http://localhost:9000"
 
-play.filters.headers.contentSecurityPolicy = "default-src 'self'; img-src 'self' fbcdn-profile-a.akamaihd.net *.twimg.com *.googleusercontent.com *.xingassets.com vk.com *.yimg.com secure.gravatar.com; style-src 'self' 'unsafe-inline' cdnjs.cloudflare.com maxcdn.bootstrapcdn.com fonts.googleapis.com; font-src 'self' fonts.gstatic.com fonts.googleapis.com cdnjs.cloudflare.com; script-src 'self' 'unsafe-inline' cdnjs.cloudflare.com; connect-src 'self' cdnjs.cloudflare.com twitter.com *.xing.com; frame-src"
+play.logger.configurator=Log4J2LoggerConfigurator
+
+play.filters.headers.contentSecurityPolicy = "default-src 'self'; img-src 'self' data: blob: fbcdn-profile-a.akamaihd.net *.twimg.com *.googleusercontent.com *.xingassets.com vk.com *.yimg.com secure.gravatar.com; style-src 'self' 'unsafe-inline' cdnjs.cloudflare.com maxcdn.bootstrapcdn.com fonts.googleapis.com; font-src 'self' fonts.gstatic.com fonts.googleapis.com cdnjs.cloudflare.com; script-src 'self' 'unsafe-inline' cdnjs.cloudflare.com; connect-src 'self' cdnjs.cloudflare.com twitter.com *.xing.com; frame-src"

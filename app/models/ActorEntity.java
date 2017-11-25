@@ -16,6 +16,9 @@ import javax.validation.groups.Default;
 @Entity
 @Table(name = "actor")
 public class ActorEntity extends Model implements Validatable<List<ValidationError>> {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long actorId;
 	
 	@Constraints.Required

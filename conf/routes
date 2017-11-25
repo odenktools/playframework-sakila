@@ -13,5 +13,6 @@ GET     /assets/*file               controllers.Assets.versioned(path="/public",
 GET            /actors                                        controllers.ActorController.index()
 GET            /actors/list                                   controllers.ActorController.dataList()
 GET            /actors/detail                                 controllers.ActorController.detail(id:Long ?= 0)
-POST            /actors/save                                  controllers.ActorController.save(id:Long ?= 0)
+POST           /actors/save                                   controllers.ActorController.save(id:Long ?= 0)
+POST           /actors/remove                                 controllers.ActorController.remove(id:Long)
 GET            /actors/add                                    controllers.ActorController.add()

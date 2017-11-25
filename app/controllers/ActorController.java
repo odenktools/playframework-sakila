@@ -14,6 +14,17 @@ import play.data.FormFactory;
 import javax.inject.*;
 import play.db.ebean.Transactional;
 
+import utils.Helpers;
+import play.filters.csrf.*;
+import play.Logger;
+import play.Logger.ALogger;
+
+import com.google.common.base.Preconditions;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+
+import org.slf4j.MDC;
+
 /**
  * This controller contains an action to handle HTTP requests
  * to the application's home page.
@@ -21,10 +32,14 @@ import play.db.ebean.Transactional;
 public class ActorController extends Controller {
 
 	private final FormFactory formFactory;
+	
+	private static final Logger.ALogger logger = Logger.of(ActorController.class);
+
 
     @Inject
     public ActorController(final FormFactory formFactory) {
         this.formFactory = formFactory;
+		logger.debug("ActorController", "formFactory");
     }
 
     /**
@@ -53,19 +68,14 @@ public class ActorController extends Controller {
         return ok(views.html.account.list.render(listActor));
     }
 
-	public static boolean isEmpty(CharSequence str) {
-		if (str == null || str.length() == 0)
-			return true;
-		else
-			return false;
-	}
-
 	/**
 	 * Get list actors (search available)
 	 * @return Result
 	 */
 	public Result dataList() {
 		
+		MDC.put("method", "dataList");
+        
         /**
          * Get params from datatables
          */
@@ -73,6 +83,9 @@ public class ActorController extends Controller {
 		
 		String limit = params.get("limit")[0];
 		String order = params.get("order")[0];
+		String sortBy = params.get("sort")[0];
+		String orderBy = params.get("order")[0];
+		
 		String search = "";
 		
 		if(params.get("search") != null){
@@ -81,12 +94,10 @@ public class ActorController extends Controller {
 
 		Integer offset = Integer.valueOf(params.get("offset")[0]);
 
-		String sortBy = "actor_id";
-
 		// ============ ./START QUERY BUILDER
 		Query<ActorEntity> queryBuilder = Ebean.find(ActorEntity.class);
 		ExpressionList<ActorEntity> filterData = queryBuilder.where().conjunction();
-		if (!isEmpty(search)) {
+		if (!Helpers.isEmpty(search)) {
             filterData.or(
                     Expr.ilike("first_name", "%" + search + "%"),
                     Expr.ilike("last_name", "%" + search + "%")
@@ -97,7 +108,7 @@ public class ActorController extends Controller {
 		List<ActorEntity> accountList = queryBuilder
 			.setMaxRows(Integer.parseInt(limit))
 			.setFirstRow(offset)
-			.orderBy(sortBy + " " + order)
+			.orderBy(sortBy + " " + orderBy)
 			.findList();
 		// ============ ./END QUERY BUILDER
 		
@@ -113,14 +124,15 @@ public class ActorController extends Controller {
 			row.put("actor_id", accountListFilter.getActorId());
 			row.put("first_name", accountListFilter.getFirstName());
 			row.put("last_name", accountListFilter.getLastName());
-			
+
             String action = "" +
-                    "<a href=\"" + routes.ActorController.detail(accountListFilter.getActorId()) + "\" onclick=\"\"><i class=\"fa fa-search\" title=\"Detail\"></i></a>&nbsp;&nbsp;&nbsp;" +
-                    "<a href=\"javascript:deleteData(" + accountListFilter.getActorId() + ");\"><i class=\"fa fa-trash\" title=\"Delete\"></i></a>&nbsp;";
+                    "<a data-toggle='tooltip' title='Detail an actor' href=\"" + routes.ActorController.detail(accountListFilter.getActorId()) + "\" onclick=\"\"><i class=\"fa fa-pencil\" title=\"Detail\"></i></a>&nbsp;&nbsp;&nbsp;" +
+                    "<a data-toggle='tooltip' title='Delete an actor' href=\"javascript:dialogRemove('" + routes.ActorController.remove(accountListFilter.getActorId()) + "');\"><i class=\"fa fa-trash\" title=\"Delete\"></i></a>&nbsp;";
 			
 			row.put("action", action);
 			arrayNode.add(row);
 		}
+		
 		return ok(result);
 	}
 	
@@ -135,6 +147,28 @@ public class ActorController extends Controller {
 	}
 
 	/**
+	 * Remove An Actor
+	 *
+	 * @return Result
+	 */
+	@AddCSRFToken
+	@Transactional
+	public Result remove(long id) {
+		ActorEntity actorEntity = ActorEntity.find.ref(id);
+		
+        int status = 0;
+		boolean deleted = actorEntity.delete();
+
+		if(deleted){
+			flash("success", "Data success deleted");
+		}else{
+			flash("error", "Data failed deleted");
+		}
+        
+		return GO_HOME;
+	}
+
+	/**
 	 * Save Data
 	 * @return Result
 	 */
@@ -144,21 +178,21 @@ public class ActorController extends Controller {
 		ActorEntity actorEntity = null;
 		
 		Boolean onError = false;
-		
+
 		if(id != 0){
 			actorEntity = ActorEntity.find.byId(id);
 		}else{
 			actorEntity = new ActorEntity();
 		}
-		
+
 		DynamicForm form = formFactory.form().bindFromRequest();
 		String first_name = form.get("first_name").toString();
 		String last_name = form.get("last_name").toString();
 		
-		if(isEmpty(first_name)){
+		if(Helpers.isEmpty(first_name)){
 			flash("error", "Please fill ``first_name``");
 			onError = true;
-		}else if(isEmpty(last_name)){
+		}else if(Helpers.isEmpty(last_name)){
 			flash("error", "Please fill ``last_name``");
 			onError = true;
 		}
@@ -167,6 +201,7 @@ public class ActorController extends Controller {
 			actorEntity.setFirstName(first_name);
 			actorEntity.setLastName(last_name);
 			actorEntity.save();
+			flash("success", "Data success saved");
 		}else{
 			return redirect(routes.ActorController.add());
 		}

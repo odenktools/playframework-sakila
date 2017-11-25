@@ -17,5 +17,8 @@ libraryDependencies ++= Seq(
   "org.reflections" % "reflections" % "0.9.8" notTransitive (), 
   "commons-io" % "commons-io" % "2.4",
   "org.apache.poi" % "poi" % "3.8","org.apache.poi" % "poi-ooxml" % "3.9",
-  "org.apache.httpcomponents" % "httpclient" % "4.3.3"
+  "org.apache.httpcomponents" % "httpclient" % "4.3.3",
+  "org.apache.logging.log4j" % "log4j-slf4j-impl" % "2.4.1",
+  "org.apache.logging.log4j" % "log4j-api" % "2.4.1",
+  "org.apache.logging.log4j" % "log4j-core" % "2.4.1"
 )
