@@ -20,5 +20,15 @@ libraryDependencies ++= Seq(
   "org.apache.httpcomponents" % "httpclient" % "4.3.3",
   "org.apache.logging.log4j" % "log4j-slf4j-impl" % "2.4.1",
   "org.apache.logging.log4j" % "log4j-api" % "2.4.1",
-  "org.apache.logging.log4j" % "log4j-core" % "2.4.1"
+  "org.apache.logging.log4j" % "log4j-core" % "2.4.1",
+  
+  "org.hibernate" % "hibernate-entitymanager" % "5.1.0.Final",
+  javaJpa.exclude("org.hibernate.javax.persistence", "hibernate-jpa-2.0-api"),
+  "org.springframework" % "spring-context" % "	4.2.4.RELEASE ",
+  "javax.inject" % "javax.inject" % "1",
+  "org.springframework.data" % "spring-data-jpa" % "1.9.2.RELEASE",
+  "org.springframework" % "spring-expression" % "4.2.4.RELEASE"
 )
+
+
+fork in run := true

@@ -32,9 +32,8 @@ import org.slf4j.MDC;
 public class ActorController extends Controller {
 
 	private final FormFactory formFactory;
-	
-	private static final Logger.ALogger logger = Logger.of(ActorController.class);
 
+	private static final Logger.ALogger logger = Logger.of(ActorController.class);
 
     @Inject
     public ActorController(final FormFactory formFactory) {
@@ -73,9 +72,9 @@ public class ActorController extends Controller {
 	 * @return Result
 	 */
 	public Result dataList() {
-		
+
 		MDC.put("method", "dataList");
-        
+
         /**
          * Get params from datatables
          */
@@ -97,7 +96,7 @@ public class ActorController extends Controller {
 		// ============ ./START QUERY BUILDER
 		Query<ActorEntity> queryBuilder = Ebean.find(ActorEntity.class);
 		ExpressionList<ActorEntity> filterData = queryBuilder.where().conjunction();
-		if (!Helpers.isEmpty(search)) {
+		if (StringUtils.isNotBlank(search)) {
             filterData.or(
                     Expr.ilike("first_name", "%" + search + "%"),
                     Expr.ilike("last_name", "%" + search + "%")
@@ -110,21 +109,28 @@ public class ActorController extends Controller {
 			.setFirstRow(offset)
 			.orderBy(sortBy + " " + orderBy)
 			.findList();
+		//-- Counting Row
+		io.ebean.PagedList queryCount = queryBuilder
+			.setMaxRows(Integer.parseInt(limit))
+			.setFirstRow(offset)
+			.orderBy(sortBy + " " + orderBy)
+			.findPagedList();
+		int rowCount = queryCount.getTotalCount();
 		// ============ ./END QUERY BUILDER
-		
-		ObjectNode result = Json.newObject();
-		ArrayNode arrayNode = result.putArray("rows");
 
-		SqlRow sqlRowCountAccount = Ebean.createSqlQuery("select count(*) as count from actor").findUnique();
-        int iTotalRecords = sqlRowCountAccount.getInteger("count");
-		result.put("total", iTotalRecords);
+		ObjectNode nodeResult = Json.newObject();
+		ArrayNode arrayNode = nodeResult.putArray("rows");
+
+		nodeResult.put("total", rowCount);
 
 		for (ActorEntity accountListFilter : accountList) {
 			ObjectNode row = Json.newObject();
 			row.put("actor_id", accountListFilter.getActorId());
 			row.put("first_name", accountListFilter.getFirstName());
 			row.put("last_name", accountListFilter.getLastName());
-
+			row.put("created_at", utils.DateUtils.date2Str( accountListFilter.getCreatedAt(), "dd-MM-yyyy HH:mm:ss" ));
+			row.put("updated_at", utils.DateUtils.date2Str( accountListFilter.getUpdatedAt(), "dd-MM-yyyy HH:mm:ss" ));
+			
             String action = "" +
                     "<a data-toggle='tooltip' title='Detail an actor' href=\"" + routes.ActorController.detail(accountListFilter.getActorId()) + "\" onclick=\"\"><i class=\"fa fa-pencil\" title=\"Detail\"></i></a>&nbsp;&nbsp;&nbsp;" +
                     "<a data-toggle='tooltip' title='Delete an actor' href=\"javascript:dialogRemove('" + routes.ActorController.remove(accountListFilter.getActorId()) + "');\"><i class=\"fa fa-trash\" title=\"Delete\"></i></a>&nbsp;";
@@ -132,8 +138,8 @@ public class ActorController extends Controller {
 			row.put("action", action);
 			arrayNode.add(row);
 		}
-		
-		return ok(result);
+
+		return ok(nodeResult);
 	}
 	
 	/**
@@ -164,8 +170,8 @@ public class ActorController extends Controller {
 		}else{
 			flash("error", "Data failed deleted");
 		}
-        
-		logger.debug("remove", deleted);
+
+		logger.debug("remove", "Delete row " + id);
 		
 		return GO_HOME;
 	}

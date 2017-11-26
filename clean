@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+
+rm -rf project/project/
+rm -rf project/target/
+rm -rf target/
+rm -rf .sbtserver/
