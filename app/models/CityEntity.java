@@ -1,12 +1,20 @@
 package models;
+
 import javax.persistence.*;
 import java.sql.Timestamp;
+import play.data.validation.Constraints;
+import io.ebean.*;
 
 @Entity
 @Table(name = "city", schema = "sakila", catalog = "")
 public class CityEntity {
+	
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
     private Short cityId;
+	
+	@Constraints.Required
     private String city;
+	
     private Timestamp createdAt;
     private Timestamp updatedAt;
 

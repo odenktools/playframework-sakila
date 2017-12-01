@@ -1,7 +1,7 @@
 @(params: List[ActorEntity])
 @import helper._
 
-@views.html.main("List Actors") {
+@views.html.main("Actors Lists") {
 
 	<!-- MODAL FORM FOR DELETE PROCESS -->
     <div id="modal-form-delete" class="modal fade" tabindex="-1" role="basic" aria-hidden="true">
@@ -27,14 +27,21 @@
     </div>
 	<!-- ./ END MODAL FORM FOR DELETE PROCESS -->
 
-    <!-- Content Header (Page header) -->
-    <section class="content-header">
-        <h1>List Actors</h1>
-        <ol class="breadcrumb">
-            <li><a href=""><i class="fa fa-dashboard"></i> Home</a></li>
-            <li class="active">Actors</li>
-        </ol>
-    </section>
+	<!-- Content Header (Page header) -->
+    <div class="box box-primary">
+        <div class="box-body">
+			<div class="row">
+				<section class="content-header">
+					<h1>Actors Lists</h1>
+					<ol class="breadcrumb">
+						<li><a href=""><i class="fa fa-dashboard"></i> Home</a></li>
+						<li class="active">Actors</li>
+					</ol>
+				</section>
+			</div>
+		</div>
+	</div>
+	<!-- Content Header (Page header) -->
 	
     <div class="box box-default">
 

@@ -3,16 +3,25 @@
 # ~~~~
 
 # An example controller showing a sample home page
-GET     /                           controllers.HomeController.index
+GET         /                             controllers.Assets.at(path="/public", file="index.html")
 
 # ============================== .START ASSETS ==============================
-GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)
+GET         /assets/*file                 controllers.Assets.versioned(path="/public", file: Asset)
 # ============================== .END ASSETS ==============================
 
+GET         /docs/swagger-ui/*file        controllers.Assets.at(path:String="/public/lib/swagger-ui", file:String)
+GET         /api-docs                     controllers.ApiHelpController.getResources
+
 # ============================== .ACTOR
-GET            /actors                                        controllers.ActorController.index()
-GET            /actors/list                                   controllers.ActorController.dataList()
-GET            /actors/detail                                 controllers.ActorController.detail(id:Long ?= 0)
-POST           /actors/save                                   controllers.ActorController.save(id:Long ?= 0)
-POST           /actors/remove                                 controllers.ActorController.remove(id:Long)
-GET            /actors/add                                    controllers.ActorController.add()
+GET         /actors                       controllers.ActorController.index()
+GET         /actors/list                  controllers.ActorController.dataList()
+GET         /actors/detail                controllers.ActorController.detail(id:Long ?= 0)
+POST        /actors/save                  controllers.ActorController.save(id:Long ?= 0)
+POST        /actors/remove                controllers.ActorController.remove(id:Long)
+GET         /actors/add                   controllers.ActorController.add()
+
+# ============================== .ACTOR API
+GET         /api/v1/actors                controllers.api.ActorController.dataList(search:String ?= "", sortBy:String ?= "actor_id", orderBy ?= "desc", offset:Int ?= 0, limit:Int ?= 10)
+
++ nocsrf
+POST        /api/v1/actors/submit         controllers.api.ActorController.submit()

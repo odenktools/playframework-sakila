@@ -3,37 +3,50 @@ package models;
 import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.*;
+
 import io.ebean.*;
+import io.swagger.annotations.ApiModelProperty;
 import play.data.format.*;
 
 import play.data.validation.Constraints;
 import play.data.validation.Constraints.Validate;
 import play.data.validation.Constraints.Validatable;
 import play.data.validation.ValidationError;
+
 import javax.validation.groups.Default;
 
+import io.swagger.annotations.ApiModel;
+import utils.Helpers;
+import utils.validator.AlphabetNumericValidator;
+
+@ApiModel
 @Validate
 @Entity
 @Table(name = "actor")
 public class ActorEntity extends Model implements Validatable<List<ValidationError>> {
 
+    @ApiModelProperty(value = "Autoincrement value")
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long actorId;
-	
-	@Constraints.Required
+
+    @ApiModelProperty(position = 1, required = true, value = "firstName containing only lowercase letters or numbers")
+    @Constraints.Pattern(value = "^[a-zA-Z0-9\\\\._\\\\-]+$", message = "lastName containing only letters or number")
+    @Constraints.Required(message = "firstName is required")
     private String firstName;
-	
-	@Constraints.Required
+
+    @ApiModelProperty(position = 2, required = true, value = "lastName containing only letters or numbers")
+    @Constraints.Required(message = "lastName is required")
+    @Constraints.ValidateWith(AlphabetNumericValidator.class)
     private String lastName;
-	
-	@Temporal(TemporalType.TIMESTAMP)
-	@Formats.DateTime(pattern="yyyy-MM-dd HH:mm:ss")
-	@Column(updatable=false)
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @Formats.DateTime(pattern = "yyyy-MM-dd HH:mm:ss")
+    @Column(updatable = false)
     private Timestamp createdAt;
-	
-	@Temporal(TemporalType.TIMESTAMP)
-	@Formats.DateTime(pattern="yyyy-MM-dd HH:mm:ss")
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @Formats.DateTime(pattern = "yyyy-MM-dd HH:mm:ss")
     private Timestamp updatedAt;
 
     @Id
@@ -61,7 +74,7 @@ public class ActorEntity extends Model implements Validatable<List<ValidationErr
     public String getLastName() {
         return lastName;
     }
-	
+
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
@@ -111,27 +124,19 @@ public class ActorEntity extends Model implements Validatable<List<ValidationErr
         result = 31 * result + (updatedAt != null ? updatedAt.hashCode() : 0);
         return result;
     }
-	
-	/**
-	 * Query Builder
-	 * @return Finder
-	 */
-	public static final Finder<Long, ActorEntity> find = new Finder<>(ActorEntity.class);
-	
-	public static boolean isEmpty(CharSequence str) {
-		if (str == null || str.length() == 0)
-			return true;
-		else
-			return false;
-	}
 
-	@Override
-	public List<ValidationError> validate() {
+    /**
+     * Query Builder
+     */
+    public static final Finder<Long, ActorEntity> finder = new Finder<>(ActorEntity.class);
+
+    @Override
+    public List<ValidationError> validate() {
         List<ValidationError> errors = new ArrayList<ValidationError>();
-        if(this.firstName == null || isEmpty(this.firstName)) {
+        if (this.firstName == null || Helpers.isEmpty(this.firstName)) {
             errors.add(new ValidationError("firstName", "Invalid firstName"));
         }
-        if(this.lastName == null || isEmpty(this.lastName)) {
+        if (this.lastName == null || Helpers.isEmpty(this.lastName)) {
             errors.add(new ValidationError("lastName", "Invalid lastName"));
         }
         return errors;
