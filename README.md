@@ -4,8 +4,13 @@
 * We use [AdminLTE](https://adminlte.io/)
 * We use Ebean
 * We use MySQL 5.x
-* Integrated with Swagger and SwaggerUI
-* Simple Bootstrap Table
+* [Integrated with Swagger and SwaggerUI](https://swagger.io/)
+* [Bootstrap Table](http://bootstrap-table.wenzhixin.net.cn/)
+* Rest API Examples
+* Form Validation Examples
+* CRUD Examples
+* Cross Site Request Forgery aka CSRF Filter
+* Cross-Origin Resource Sharing aka CORS Filter
 
 ### How to run
 
@@ -41,9 +46,9 @@ OR
 sbt "run 9000"
 ```
 
-Now open your browser then navigate to ```http://localhost:9000```
+Now open your browser then navigate to ```http://localhost:9000``` then ```apply``` the script
 
-### SWAGGER UI
+### Swagger UI
 
 [SEE UI](http://localhost:9000/assets/lib/swagger-ui/index.html?/url=http://localhost:9000/api-docs)
 
