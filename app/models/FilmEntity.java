@@ -8,6 +8,7 @@ import play.data.format.Formats;
 import play.data.validation.Constraints;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.sql.Timestamp;
 
 @ApiModel
@@ -55,7 +56,7 @@ public class FilmEntity extends Model {
 
     @ApiModelProperty(position = 9, required = true, value = "replacementCost")
     @Constraints.Required(message = "replacementCost is required")
-    private Double replacementCost;
+    private BigDecimal replacementCost;
 
     @ApiModelProperty(position = 10, required = true, value = "rating")
     @Constraints.Required(message = "rating is required")
@@ -144,12 +145,12 @@ public class FilmEntity extends Model {
     }
 
     @Basic
-    @Column(name = "replacement_cost", nullable = false, precision = 2)
-    public Double getReplacementCost() {
+    @Column(name = "replacement_cost", nullable = false)
+    public BigDecimal getReplacementCost() {
         return replacementCost;
     }
 
-    public void setReplacementCost(Double replacementCost) {
+    public void setReplacementCost(BigDecimal replacementCost) {
         this.replacementCost = replacementCost;
     }
 

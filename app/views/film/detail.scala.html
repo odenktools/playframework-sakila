@@ -14,7 +14,10 @@
                 <section class="content-header">
                     <h1>@title</h1>
                     <ol class="breadcrumb">
-                        <li><a href=""><i class="fa fa-dashboard"></i> Home</a></li>
+                        <li>
+                            <a href="@controllers.routes.FilmController.index()"><i class="fa fa-dashboard"></i>
+                                Home</a>
+                        </li>
                         <li class="active">Films</li>
                     </ol>
                 </section>
@@ -115,7 +118,7 @@
 
                                 <div class="form-group">
                                     <label for="replacement_cost">Replacement Cost</label>
-                                    <input id="replacement_cost" name="replacement_cost" class="form-control" placeholder="Enter Replacement cost" value="@entityMap.getReplacementCost()">
+                                    <input id="replacement_cost" name="replacement_cost" class="form-control money-mask" placeholder="Enter Replacement cost" value="@entityMap.getReplacementCost()">
                                 </div>
                                     <!-- /.form-group -->
 
@@ -137,8 +140,28 @@
 
     <script type="text/javascript">
             $(document).ready(function () {
+
+                var globalMoney = new AutoNumeric($(".money-mask")[0], {
+                    digitGroupSeparator: '.',
+                    decimalCharacter: ',',
+                    minimumValue: '-999999999999.99',
+                    maximumValue: '999999999999.99',
+                    unformatOnSubmit: true,
+                    decimalPlaces: 2
+                });
+
+                AutoNumeric.formatAndSet($(".money-mask")[0],{
+                    digitGroupSeparator: '.',
+                    decimalCharacter: ',',
+                    minimumValue: '-999999999999.99',
+                    maximumValue: '999999999999.99',
+                    unformatOnSubmit: true,
+                    decimalPlaces: 2
+                });
+
                 $("#save-form").validate({
                     rules: {
+                        // this is the NAME attribute of the field, not ID
                         title: {
                             required: true
                         },
@@ -191,10 +214,10 @@
                         }
                     },
                     submitHandler: function (form) {
+                        GlobalMoney.global.unformat();
                         form.submit();
                     }
                 });
-
             });
     </script>
 }

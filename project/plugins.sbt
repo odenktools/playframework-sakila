@@ -5,6 +5,8 @@ resolvers ++= Seq(
   Resolver.sonatypeRepo("releases")
 )
 
+updateOptions := updateOptions.value.withCachedResolution(true)
+
 // The Play plugin
 addSbtPlugin("com.typesafe.play" % "sbt-plugin" % "2.6.7")
 
