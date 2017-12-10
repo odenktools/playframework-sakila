@@ -88,7 +88,7 @@ curl -X GET \
   -H 'cache-control: no-cache'
 ```
 
-Find an actors
+Find an films
 --------------
 
 ```bash

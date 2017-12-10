@@ -2,7 +2,6 @@
 @(title: String, entityMap: FilmEntity,
         listsLanguage: util.Map[Long, String],
         listRating: util.List[String],
-        listSelected: util.List[Long],
         selectedOriginLang: util.List[Long],
         seletedRating: util.List[String])
 @import helper._
@@ -54,7 +53,7 @@
                                     <label for="rating">Rating</label>
 
                                     <select id="rating" name="rating" class="form-control select2">
-                                        <option value="0" selected="selected"></option>
+                                        <option value="" selected="selected">-</option>
                                         @for((k) <- listRating) {
                                             <option value="@k" @if(k == entityMap.getRating()) {
                                                 selected="selected"}>@k</option>
@@ -67,10 +66,14 @@
                                 <div class="form-group">
                                     <label for="language_id">Language</label>
                                     <select id="language_id" name="language_id" class="form-control select2">
-                                        <option value="0" selected="selected"></option>
+                                        <option value="" selected="selected">-</option>
                                         @for((k, v) <- listsLanguage) {
-                                            <option value="@k" @if(k == entityMap.getLanguageId()) {
-                                                selected="selected"}>@v</option>
+                                            @if(entityMap.getLanguageId() != null) {
+                                                <option value="@k" @if(k == entityMap.getLanguageId().getLanguageId()) {
+                                                    selected="selected"}>@v</option>
+                                            } else {
+                                                <option value="@k">@v</option>
+                                            }
                                         }
                                     </select>
                                 </div>
@@ -80,7 +83,7 @@
                                 <div class="form-group">
                                     <label for="original_language_id">Original Language</label>
                                     <select id="original_language_id" name="original_language_id" class="form-control select2">
-                                        <option value="0" selected="selected"></option>
+                                        <option value="" selected="selected">-</option>
                                         @for((k, v) <- listsLanguage) {
                                             <option value="@k" @if(k == entityMap.getOriginalLanguageId()) {
                                                 selected="selected"}>@v</option>
@@ -111,8 +114,8 @@
                                     <!-- /.form-group -->
 
                                 <div class="form-group">
-                                    <label for="replacement_cost">replacement cost</label>
-                                    <input id="replacement_cost" name="replacement_cost" class="form-control" placeholder="Enter replacement cost" value="@entityMap.getReplacementCost()">
+                                    <label for="replacement_cost">Replacement Cost</label>
+                                    <input id="replacement_cost" name="replacement_cost" class="form-control" placeholder="Enter Replacement cost" value="@entityMap.getReplacementCost()">
                                 </div>
                                     <!-- /.form-group -->
 
@@ -163,29 +166,29 @@
                     },
                     messages: {
                         title: {
-                            required: "title is required."
+                            required: "Title is required."
                         },
                         rating: {
-                            required: "rating is required."
+                            required: "Rating is required."
                         },
                         language_id: {
-                            required: "language_id is required."
+                            required: "language id is required."
                         },
                         original_language_id: {
-                            required: "original_language_id is required."
+                            required: "original language is required."
                         },
                         release_year: {
-                            required: "release_year is required."
+                            required: "Release year is required."
                         },
                         rental_duration: {
-                            required: "rental_duration is required."
+                            required: "Rental Duration is required."
                         },
                         rental_rate: {
-                            required: "rental_rate is required."
+                            required: "Rental Rate is required."
                         },
                         replacement_cost: {
-                            required: "replacement_cost is required."
-                        },
+                            required: "Replacement Cost is required."
+                        }
                     },
                     submitHandler: function (form) {
                         form.submit();

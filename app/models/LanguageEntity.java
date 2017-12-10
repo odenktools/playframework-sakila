@@ -1,12 +1,16 @@
 package models;
+
 import io.ebean.Finder;
+import io.ebean.Model;
+import io.swagger.annotations.ApiModel;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
 
+@ApiModel
 @Entity
 @Table(name = "language")
-public class LanguageEntity {
+public class LanguageEntity extends Model {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

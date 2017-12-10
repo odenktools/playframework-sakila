@@ -8,9 +8,6 @@ import play.data.format.Formats;
 import play.data.validation.Constraints;
 
 import javax.persistence.*;
-
-import java.math.BigDecimal;
-import java.sql.Date;
 import java.sql.Timestamp;
 
 @ApiModel
@@ -44,15 +41,27 @@ public class FilmEntity extends Model {
 
     @ApiModelProperty(position = 6, required = true, value = "languageId")
     @Constraints.Required(message = "languageId is required")
-    private Long languageId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "language_id")
+    private LanguageEntity languageId;
 
     @ApiModelProperty(position = 7, required = true, value = "languageId")
     @Constraints.Required(message = "originalLanguageId is required")
     private Long originalLanguageId;
 
+    @ApiModelProperty(position = 8, required = true, value = "length")
+    @Constraints.Required(message = "length is required")
     private Short length;
+
+    @ApiModelProperty(position = 9, required = true, value = "replacementCost")
+    @Constraints.Required(message = "replacementCost is required")
     private Double replacementCost;
+
+    @ApiModelProperty(position = 10, required = true, value = "rating")
+    @Constraints.Required(message = "rating is required")
     private String rating;
+
+    @ApiModelProperty(position = 11, required = false, value = "specialFeatures")
     private String specialFeatures;
 
     @Temporal(TemporalType.TIMESTAMP)
@@ -125,7 +134,7 @@ public class FilmEntity extends Model {
     }
 
     @Basic
-    @Column(name = "length", nullable = true)
+    @Column(name = "length", nullable = false)
     public Short getLength() {
         return length;
     }
@@ -145,7 +154,7 @@ public class FilmEntity extends Model {
     }
 
     @Basic
-    @Column(name = "rating")
+    @Column(name ="rating", nullable =false)
     public String getRating() {
         return rating;
     }
@@ -156,11 +165,11 @@ public class FilmEntity extends Model {
 
     @Basic
     @Column(name = "language_id", nullable = false)
-    public Long getLanguageId() {
+    public LanguageEntity getLanguageId() {
         return languageId;
     }
 
-    public void setLanguageId(Long languageId) {
+    public void setLanguageId(LanguageEntity languageId) {
         this.languageId = languageId;
     }
 
