@@ -63,7 +63,7 @@ public class ActorController extends Controller {
 		String stringJson = json.toString();*/
 
 		/*//Using RAW SQL:
-		Query<ActorEntity> query = Ebean.find(ActorEntity.class);
+        Query<ActorEntity> query = Ebean.find(ActorEntity.class);
 		String sqlString = "SELECT * FROM actor;";
         RawSql rawSqlFilter = RawSqlBuilder.parse(sqlString).create();
 		query.setRawSql(rawSqlFilter);*/
@@ -154,6 +154,7 @@ public class ActorController extends Controller {
      */
     public Result detail(long id) {
         ActorEntity actorEntity = ActorEntity.finder.ref(id);
+        logger.debug("get ID: {} NAME : {} CREATE_AT: {}", actorEntity.getActorId(), actorEntity.getFirstName(), actorEntity.getCreatedAt());
         Form<ActorEntity> formData = formFactory.form(ActorEntity.class).fill(actorEntity);
         return ok(views.html.account.detail.render("Edit an Actor", actorEntity));
     }
@@ -213,6 +214,7 @@ public class ActorController extends Controller {
         }
 
         if (!onError) {
+            assert actorEntity != null;
             actorEntity.setFirstName(first_name);
             actorEntity.setLastName(last_name);
             actorEntity.save();
@@ -222,7 +224,7 @@ public class ActorController extends Controller {
         }
 
 		/* //USING FORM MODELS
-		Form<ActorEntity> form = this.formFactory.form(ActorEntity.class).bindFromRequest();
+        Form<ActorEntity> form = this.formFactory.form(ActorEntity.class).bindFromRequest();
 		
 		if (form.hasErrors()) {
 			flash("error", "Please correct errors bellow.");

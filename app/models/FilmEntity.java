@@ -1,32 +1,76 @@
 package models;
+
+import io.ebean.Finder;
+import io.ebean.Model;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+import play.data.format.Formats;
+import play.data.validation.Constraints;
+
 import javax.persistence.*;
 
 import java.math.BigDecimal;
+import java.sql.Date;
 import java.sql.Timestamp;
 
+@ApiModel
 @Entity
-@Table(name = "film", schema = "sakila", catalog = "")
-public class FilmEntity {
-    private Short filmId;
+@Table(name = "film")
+public class FilmEntity extends Model {
+
+    @ApiModelProperty(value = "Autoincrement value")
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long filmId;
+
+    @ApiModelProperty(position = 1, required = true, value = "title")
+    @Constraints.Required(message = "title is required")
     private String title;
+
+    @ApiModelProperty(position = 2, required = true, value = "description")
     private String description;
-    private String releaseYear;
+
+    @ApiModelProperty(position = 3, required = true, value = "releaseYear")
+    @Constraints.Required(message = "releaseYear is required")
+    private Long releaseYear;
+
+    @ApiModelProperty(position = 4, required = true, value = "rentalDuration")
+    @Constraints.Required(message = "rentalDuration is required")
     private Byte rentalDuration;
-    private BigDecimal rentalRate;
+
+    @ApiModelProperty(position = 5, required = true, value = "rentalRate")
+    @Constraints.Required(message = "rentalRate is required")
+    private Double rentalRate;
+
+    @ApiModelProperty(position = 6, required = true, value = "languageId")
+    @Constraints.Required(message = "languageId is required")
+    private Long languageId;
+
+    @ApiModelProperty(position = 7, required = true, value = "languageId")
+    @Constraints.Required(message = "originalLanguageId is required")
+    private Long originalLanguageId;
+
     private Short length;
-    private BigDecimal replacementCost;
+    private Double replacementCost;
     private String rating;
     private String specialFeatures;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @Formats.DateTime(pattern = "yyyy-MM-dd HH:mm:ss")
+    @Column(updatable = false)
     private Timestamp createdAt;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @Formats.DateTime(pattern = "yyyy-MM-dd HH:mm:ss")
     private Timestamp updatedAt;
 
-    @Id
+
     @Column(name = "film_id", nullable = false)
-    public Short getFilmId() {
+    public Long getFilmId() {
         return filmId;
     }
 
-    public void setFilmId(Short filmId) {
+    public void setFilmId(Long filmId) {
         this.filmId = filmId;
     }
 
@@ -51,12 +95,12 @@ public class FilmEntity {
     }
 
     @Basic
-    @Column(name = "release_year", nullable = true)
-    public String getReleaseYear() {
+    @Column(name = "release_year", nullable = false)
+    public Long getReleaseYear() {
         return releaseYear;
     }
 
-    public void setReleaseYear(String releaseYear) {
+    public void setReleaseYear(Long releaseYear) {
         this.releaseYear = releaseYear;
     }
 
@@ -71,12 +115,12 @@ public class FilmEntity {
     }
 
     @Basic
-    @Column(name = "rental_rate", nullable = false, precision = 2)
-    public BigDecimal getRentalRate() {
+    @Column(name = "rental_rate", nullable = false)
+    public Double getRentalRate() {
         return rentalRate;
     }
 
-    public void setRentalRate(BigDecimal rentalRate) {
+    public void setRentalRate(Double rentalRate) {
         this.rentalRate = rentalRate;
     }
 
@@ -92,22 +136,42 @@ public class FilmEntity {
 
     @Basic
     @Column(name = "replacement_cost", nullable = false, precision = 2)
-    public BigDecimal getReplacementCost() {
+    public Double getReplacementCost() {
         return replacementCost;
     }
 
-    public void setReplacementCost(BigDecimal replacementCost) {
+    public void setReplacementCost(Double replacementCost) {
         this.replacementCost = replacementCost;
     }
 
     @Basic
-    @Column(name = "rating", nullable = true)
+    @Column(name = "rating")
     public String getRating() {
         return rating;
     }
 
     public void setRating(String rating) {
         this.rating = rating;
+    }
+
+    @Basic
+    @Column(name = "language_id", nullable = false)
+    public Long getLanguageId() {
+        return languageId;
+    }
+
+    public void setLanguageId(Long languageId) {
+        this.languageId = languageId;
+    }
+
+    @Basic
+    @Column(name = "original_language_id", nullable = false)
+    public Long getOriginalLanguageId() {
+        return originalLanguageId;
+    }
+
+    public void setOriginalLanguageId(Long originalLanguageId) {
+        this.originalLanguageId = originalLanguageId;
     }
 
     @Basic
@@ -158,6 +222,7 @@ public class FilmEntity {
         if (replacementCost != null ? !replacementCost.equals(that.replacementCost) : that.replacementCost != null)
             return false;
         if (rating != null ? !rating.equals(that.rating) : that.rating != null) return false;
+        if (languageId != null ? !languageId.equals(that.languageId) : that.languageId != null) return false;
         if (specialFeatures != null ? !specialFeatures.equals(that.specialFeatures) : that.specialFeatures != null)
             return false;
         if (createdAt != null ? !createdAt.equals(that.createdAt) : that.createdAt != null) return false;
@@ -176,10 +241,16 @@ public class FilmEntity {
         result = 31 * result + (rentalRate != null ? rentalRate.hashCode() : 0);
         result = 31 * result + (length != null ? length.hashCode() : 0);
         result = 31 * result + (replacementCost != null ? replacementCost.hashCode() : 0);
+        result = 31 * result + (languageId != null ? languageId.hashCode() : 0);
         result = 31 * result + (rating != null ? rating.hashCode() : 0);
         result = 31 * result + (specialFeatures != null ? specialFeatures.hashCode() : 0);
         result = 31 * result + (createdAt != null ? createdAt.hashCode() : 0);
         result = 31 * result + (updatedAt != null ? updatedAt.hashCode() : 0);
         return result;
     }
+
+    /**
+     * Query Builder
+     */
+    public static final Finder<Long, FilmEntity> finder = new Finder<>(FilmEntity.class);
 }

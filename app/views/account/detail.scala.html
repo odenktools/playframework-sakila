@@ -2,68 +2,95 @@
 @import helper._
 
 @views.html.main("Actor Form") {
-	
-	<!-- Content Header (Page header) -->
+
+    <!-- Content Header (Page header) -->
     <div class="box box-primary">
         <div class="box-body">
-			<div class="row">
-				<section class="content-header">
-					<h1>@title</h1>
-					<ol class="breadcrumb">
-						<li><a href=""><i class="fa fa-dashboard"></i> Home</a></li>
-						<li class="active">Actors</li>
-					</ol>
-				</section>
-			</div>
-		</div>
-	</div>
-	<!-- Content Header (Page header) -->
-	
+            <div class="row">
+                <section class="content-header">
+                    <h1>@title</h1>
+                    <ol class="breadcrumb">
+                        <li><a href=""><i class="fa fa-dashboard"></i> Home</a></li>
+                        <li class="active">Actors</li>
+                    </ol>
+                </section>
+            </div>
+        </div>
+    </div>
+        <!-- Content Header (Page header) -->
+
     <div class="box box-default">
         <div class="box-body">
-			<div class="row">
+            <div class="row">
 
-				<div class="col-md-12">
-					<div class="box box-primary">
-						<!-- form start -->
-						@form(CSRF( controllers.routes.ActorController.save( accountMap.getActorId()) )) {
-						   <div class="box-body">
-						   
-							@if(flash.containsKey("error")) {
-								<div class="alert alert-danger alert-dismissible">
-									<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-									<h4><i class="icon fa fa-check"></i> Alert!</h4>
-									@flash.get("error")
-								</div>
-							}
+                <div class="col-md-12">
+                    <div class="box box-primary">
+                            <!-- form start -->
+                        @form(CSRF(controllers.routes.ActorController.save(accountMap.getActorId())), 'id -> "save-form", 'name -> "save-form") {
+                            <div class="box-body">
 
-							<!-- .form-group -->
-							<div class="form-group">
-							  <label for="first_name">First Name</label>
-							  <input id="first_name" name="first_name" class="form-control" placeholder="Enter first name" value="@accountMap.getFirstName()">
-							</div>
-							<!-- /.form-group -->
+                                @if(flash.containsKey("error")) {
+                                    <div class="alert alert-danger alert-dismissible">
+                                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                                        <h4><i class="icon fa fa-check"></i> Alert!</h4>
+                                        @flash.get("error")
+                                    </div>
+                                }
 
-							<!-- .form-group -->
-							<div class="form-group">
-							  <label for="last_name">Last Name</label>
-							  <input id="last_name" name="last_name" class="form-control" placeholder="Enter last name" value="@accountMap.getLastName()">
-							</div>
-							<!-- /.form-group -->
+                                    <!-- .form-group -->
+                                <div class="form-group">
+                                    <label for="first_name">First Name</label>
+                                    <input id="first_name" name="first_name" class="form-control" placeholder="Enter first name" value="@accountMap.getFirstName()">
+                                </div>
+                                    <!-- /.form-group -->
 
-						  </div>
-						  <!-- /.box-body -->
+                                    <!-- .form-group -->
+                                <div class="form-group">
+                                    <label for="last_name">Last Name</label>
+                                    <input id="last_name" name="last_name" class="form-control" placeholder="Enter last name" value="@accountMap.getLastName()">
+                                </div>
+                                    <!-- /.form-group -->
 
-						  <div class="box-footer">
-							<a href="@controllers.routes.ActorController.index()", class="btn btn-default">Back</a>
-							<button type="submit" class="btn btn-info pull-right">Submit</button>
-						  </div>
-						}
-						<!-- form end -->
-					</div>
-				</div>
-			
-			</div>
-		</div>
-	</div>
+                            </div>
+                                <!-- /.box-body -->
+
+                            <div class="box-footer">
+                                <a href="@controllers.routes.ActorController.index()", class="btn btn-default">Back</a>
+                                <button type="submit" class="btn btn-info pull-right">Submit</button>
+                            </div>
+                        }
+                            <!-- form end -->
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+            $(document).ready(function () {
+                $("#save-form").validate({
+                    rules: {
+                        first_name: {
+                            required: true
+                        },
+                        last_name: {
+                            required: true
+                        }
+                    },
+                    messages: {
+                        first_name: {
+                            required: "First Name is required."
+                        },
+                        last_name: {
+                            required: "Last Name is required."
+                        }
+                    },
+                    submitHandler: function (form) {
+                        form.submit();
+                    }
+                });
+
+            });
+    </script>
 }

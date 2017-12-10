@@ -52,6 +52,45 @@ Now open your browser then navigate to ```http://localhost:9000``` then ```apply
 
 [SEE UI](http://localhost:9000/assets/lib/swagger-ui/index.html?/url=http://localhost:9000/api-docs)
 
+### TESTING
+
+List of actors
+--------------
+
+```bash
+curl -X GET \
+  'http://localhost:9000/api/v1/actors?offset=0&limit=10&sortBy=first_name&orderBy=asc' \
+  -H 'cache-control: no-cache'
+```
+
+Find an actors
+--------------
+
+```bash
+curl -X GET \
+  'http://localhost:9000/api/v1/actors?offset=0&limit=10&sortBy=first_name&orderBy=asc&search=ADAM' \
+  -H 'cache-control: no-cache'
+```
+
+
+List of films
+--------------
+
+```bash
+curl -X GET \
+  'http://localhost:9000/api/v1/films?offset=0&limit=10&sortBy=title&orderBy=asc' \
+  -H 'cache-control: no-cache'
+```
+
+Find an actors
+--------------
+
+```bash
+curl -X GET \
+  'http://localhost:9000/api/v1/films?search=ACADEMY%20DINOSAUR' \
+  -H 'cache-control: no-cache'
+```
+
 ### References
 
 [What’s new in Play 2.6](https://www.playframework.com/documentation/2.6.x/Highlights26)
@@ -61,6 +100,8 @@ Now open your browser then navigate to ```http://localhost:9000``` then ```apply
 [Ebean](https://www.playframework.com/documentation/2.6.x/JavaEbean)
 
 [Form](https://www.playframework.com/documentation/2.6.x/JavaForms)
+
+[Custom Logging](https://www.playframework.com/documentation/2.6.x/SettingsLogger)
 
 [Bootstrap Table](http://bootstrap-table.wenzhixin.net.cn/)
 

@@ -1,22 +1,28 @@
 package models;
+import io.ebean.Finder;
+
 import javax.persistence.*;
 import java.sql.Timestamp;
 
 @Entity
-@Table(name = "language", schema = "sakila", catalog = "")
+@Table(name = "language")
 public class LanguageEntity {
-    private Byte languageId;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long languageId;
+
     private String name;
     private Timestamp createdAt;
     private Timestamp updatedAt;
 
-    @Id
+
     @Column(name = "language_id", nullable = false)
-    public Byte getLanguageId() {
+    public Long getLanguageId() {
         return languageId;
     }
 
-    public void setLanguageId(Byte languageId) {
+    public void setLanguageId(Long languageId) {
         this.languageId = languageId;
     }
 
@@ -73,4 +79,9 @@ public class LanguageEntity {
         result = 31 * result + (updatedAt != null ? updatedAt.hashCode() : 0);
         return result;
     }
+
+    /**
+     * Query Builder
+     */
+    public static final Finder<Long, LanguageEntity> finder = new Finder<>(LanguageEntity.class);
 }

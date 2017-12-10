@@ -119,6 +119,10 @@ public class ActorController extends Controller {
             ActorEntity actorEntity = objForm.get();
             actorEntity.save();
         }
-        return ok("OK");
+
+        //-- Put Result
+        ObjectNode nodeResult = Json.newObject();
+        nodeResult.put("result", "ok");
+        return ok(Json.toJson(nodeResult));
     }
 }

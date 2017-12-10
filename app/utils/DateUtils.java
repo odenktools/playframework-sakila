@@ -3,12 +3,14 @@ package utils;
 import org.apache.commons.lang3.StringUtils;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
+import org.joda.time.LocalDate;
 import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.ISODateTimeFormat;
 
 import java.text.DateFormat;
 import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
+import java.time.Year;
 import java.util.Date;
 
 public class DateUtils {
@@ -50,6 +52,34 @@ public class DateUtils {
         try {
             ParsePosition pos = new ParsePosition(0);
             return sdf.parse(date, pos);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    /**
+     * Convert String To Date
+     * <p>
+     * <code>
+     * java.util.Date now = utils.DateUtils.convertStringToDate("31-12-2017", "dd-MM-yyyy HH:mm:ss");
+     * </code>
+     *
+     * @param date    String date
+     * @param pattern date pattern (default : yyyy)
+     * @return {@link Date}
+     */
+    public static java.sql.Date convertSqlToDate(String date, String pattern) {
+        DateFormat sdf = null;
+        if (pattern == null) {
+            sdf = new SimpleDateFormat("yyyy");
+        } else {
+            sdf = new SimpleDateFormat(pattern);
+        }
+        try {
+            ParsePosition pos = new ParsePosition(0);
+            java.util.Date dd = sdf.parse(date, pos);
+            return new java.sql.Date(dd.getTime());
         } catch (Exception e) {
             e.printStackTrace();
             return null;

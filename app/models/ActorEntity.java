@@ -31,7 +31,7 @@ public class ActorEntity extends Model implements Validatable<List<ValidationErr
     private Long actorId;
 
     @ApiModelProperty(position = 1, required = true, value = "firstName containing only lowercase letters or numbers")
-    @Constraints.Pattern(value = "^[a-zA-Z0-9\\\\._\\\\-]+$", message = "lastName containing only letters or number")
+    @Constraints.Pattern(value = "^[a-zA-Z0-9 \\\\._\\\\-]+$", message = "lastName containing only letters or number")
     @Constraints.Required(message = "firstName is required")
     private String firstName;
 

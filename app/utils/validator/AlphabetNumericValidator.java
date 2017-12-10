@@ -11,7 +11,7 @@ public class AlphabetNumericValidator extends Constraints.Validator<String> {
 
     @Override
     public boolean isValid(String value) {
-        String pattern = "^[a-zA-Z0-9\\\\._\\\\-]+$";
+        String pattern = "^[a-zA-Z0-9 \\\\._\\\\-]+$";
         return value != null && value.matches(pattern);
     }
 
