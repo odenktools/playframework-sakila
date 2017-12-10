@@ -1,16 +1,22 @@
 # Java Playframework Hackathon
 
+What's inside ?
+---------------
+
 * We use playframework 2.6.x
-* We use [AdminLTE](https://adminlte.io/)
+* We use Beautiful UI powered by [AdminLTE](https://adminlte.io/)
 * We use Ebean
 * We use MySQL 5.x
 * [Integrated with Swagger and SwaggerUI](https://swagger.io/)
 * [Bootstrap Table](http://bootstrap-table.wenzhixin.net.cn/)
 * Rest API Examples
-* Form Validation Examples
 * CRUD Examples
+* Server Side Validation
+* Server Side Sorting and Filtering
 * Cross Site Request Forgery aka CSRF Filter
 * Cross-Origin Resource Sharing aka CORS Filter
+* OneToMany Relation
+* Play Evolution Examples
 
 ### How to run
 
