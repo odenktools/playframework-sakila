@@ -12,7 +12,7 @@ jobs:
       JVM_OPTS: -Xmx3200m
       MYSQL_ALLOW_EMPTY_PASSWORD: true
       MYSQL_DATABASE: odenktools_play
-      MYSQL_HOST: 127.0.0.1
+      MYSQL_HOST: "127.0.0.1"
       MYSQL_ROOT_HOST: %
       MYSQL_USER: root
       TERM: dumb
