@@ -105,7 +105,19 @@
                                     <!-- .form-group -->
                                 <div class="form-group">
                                     <label for="rental_duration">Rental Duration</label>
-                                    <input id="rental_duration" name="rental_duration" class="form-control" placeholder="Enter Rental Duration" value="@entityMap.getRentalDuration()">
+                                    <div id="spinnerZero">
+                                        <div class="input-group">
+                                            <input type="text" name="rental_duration" class="spinner-input form-control"  value="@entityMap.getRentalDuration()" maxlength="3">
+                                            <div class="spinner-buttons input-group-btn">
+                                                <button type="button" class="btn spinner-up btn-info">
+                                                    <i class="fa fa-angle-up"></i>
+                                                </button>
+                                                <button type="button" class="btn spinner-down btn-info">
+                                                    <i class="fa fa-angle-down"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                                     <!-- /.form-group -->
 
@@ -116,6 +128,7 @@
                                 </div>
                                     <!-- /.form-group -->
 
+                                    <!-- .form-group -->
                                 <div class="form-group">
                                     <label for="replacement_cost">Replacement Cost</label>
                                     <input id="replacement_cost" name="replacement_cost" class="form-control money-mask" placeholder="Enter Replacement cost" value="@entityMap.getReplacementCost()">
@@ -141,23 +154,7 @@
     <script type="text/javascript">
             $(document).ready(function () {
 
-                var globalMoney = new AutoNumeric($(".money-mask")[0], {
-                    digitGroupSeparator: '.',
-                    decimalCharacter: ',',
-                    minimumValue: '-999999999999.99',
-                    maximumValue: '999999999999.99',
-                    unformatOnSubmit: true,
-                    decimalPlaces: 2
-                });
-
-                AutoNumeric.formatAndSet($(".money-mask")[0],{
-                    digitGroupSeparator: '.',
-                    decimalCharacter: ',',
-                    minimumValue: '-999999999999.99',
-                    maximumValue: '999999999999.99',
-                    unformatOnSubmit: true,
-                    decimalPlaces: 2
-                });
+                new AutoNumeric($(".money-mask")[0], CurrencySettings);
 
                 $("#save-form").validate({
                     rules: {

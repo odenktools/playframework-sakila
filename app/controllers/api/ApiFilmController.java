@@ -8,7 +8,7 @@ import io.ebean.Expr;
 import io.ebean.ExpressionList;
 import io.ebean.Query;
 import io.swagger.annotations.*;
-import models.ActorEntity;
+import models.FilmEntity;
 import play.Logger;
 import play.data.Form;
 import play.data.FormFactory;
@@ -20,24 +20,22 @@ import utils.Helpers;
 
 import javax.inject.Inject;
 import java.util.List;
-import play.filters.csrf.AddCSRFToken;
-import play.filters.csrf.CSRF;
 
 /**
- * Rest Api Actor.
+ * Rest Api Film.
  * Created by odenktools@gmail.com on 01/12/2017.
  */
-@Api(value = "/api/actors", description = "Actor API")
-public class ActorController extends Controller {
+@Api(value = "/api/films", description = "Films API")
+public class ApiFilmController extends Controller {
 
     private final FormFactory formFactory;
 
-    private static final Logger.ALogger logger = Logger.of(ActorController.class);
+    private static final Logger.ALogger logger = Logger.of(ApiFilmController.class);
 
     @Inject
-    public ActorController(final FormFactory formFactory) {
+    public ApiFilmController(final FormFactory formFactory) {
         this.formFactory = formFactory;
-        logger.debug("ActorController", "formFactory");
+        logger.debug("FilmController", "formFactory");
     }
 
     /**
@@ -45,21 +43,20 @@ public class ActorController extends Controller {
      *
      * @return play.mvc.Result
      */
-    @ApiOperation(value = "dataList", notes = "Get Actors List", response = ActorEntity.class, httpMethod = "GET")
+    @ApiOperation(value = "dataList", notes = "Get Film List", response = FilmEntity.class, httpMethod = "GET")
     public Result dataList(String search, String sortBy, String orderBy, int offset, int limit) {
 
         // ============ ./START QUERY BUILDER
-        Query<ActorEntity> queryBuilder = Ebean.find(ActorEntity.class);
-        ExpressionList<ActorEntity> filterData = queryBuilder.where().conjunction();
+        Query<FilmEntity> queryBuilder = Ebean.find(FilmEntity.class);
+        ExpressionList<FilmEntity> filterData = queryBuilder.where().conjunction();
         if (Helpers.isNotBlank(search)) {
-            filterData.or(
-                    Expr.ilike("first_name", "%" + search + "%"),
-                    Expr.ilike("last_name", "%" + search + "%")
+            filterData.add(
+                    Expr.ilike("title", "%" + search + "%")
             );
         }
         filterData.endJunction();
         queryBuilder = filterData.query();
-        List<ActorEntity> accountList = queryBuilder
+        List<FilmEntity> accountList = queryBuilder
                 .setMaxRows(limit)
                 .setFirstRow(offset)
                 .orderBy(sortBy + " " + orderBy)
@@ -79,13 +76,18 @@ public class ActorController extends Controller {
 
         nodeResult.put("total", rowCount);
 
-        for (ActorEntity accountListFilter : accountList) {
+        for (FilmEntity data : accountList) {
             ObjectNode row = Json.newObject();
-            row.put("actor_id", accountListFilter.getActorId());
-            row.put("first_name", accountListFilter.getFirstName());
-            row.put("last_name", accountListFilter.getLastName());
-            row.put("created_at", utils.DateUtils.date2Str(accountListFilter.getCreatedAt(), "dd-MM-yyyy HH:mm:ss"));
-            row.put("updated_at", utils.DateUtils.date2Str(accountListFilter.getUpdatedAt(), "dd-MM-yyyy HH:mm:ss"));
+            row.put("film_id", data.getFilmId());
+            row.put("title", data.getTitle());
+            row.put("rating", data.getRating());
+            row.put("release_year", data.getReleaseYear());
+            row.put("rental_duration", data.getRentalDuration());
+            row.put("rental_rate", data.getRentalRate());
+            row.put("replacement_cost", data.getReplacementCost());
+            row.put("created_at", utils.DateUtils.date2Str(data.getCreatedAt(), "dd-MM-yyyy HH:mm:ss"));
+            row.put("updated_at", utils.DateUtils.date2Str(data.getUpdatedAt(), "dd-MM-yyyy HH:mm:ss"));
+
             arrayNode.add(row);
         }
 
@@ -97,8 +99,8 @@ public class ActorController extends Controller {
      *
      * @return play.mvc.Result
      */
-    @ApiResponse(code = 200, message = "Success", response = ActorEntity.class, reference = "http://localhost:9000/assets/json/actor-entity.json")
-    @ApiOperation(value = "submit", notes = "Add an Actor", response = ActorEntity.class, httpMethod = "POST")
+    @ApiResponse(code = 200, message = "Success", response = FilmEntity.class, reference = "http://localhost:9000/assets/json/actor-entity.json")
+    @ApiOperation(value = "submit", notes = "Add an Actor", response = FilmEntity.class, httpMethod = "POST")
     @BodyParser.Of(value = BodyParser.Json.class)
     @ApiImplicitParams({
             @ApiImplicitParam(name = "body", required = true, paramType = "body", value = "ActorEntity")
@@ -107,19 +109,15 @@ public class ActorController extends Controller {
 
         JsonNode node = request().body().asJson();
 
-		/*String filePath = Play.application().path() + File.separator + "public" + File.separator + "json" + File.separator + "actor-entity.json";
-        File folder = new File(filePath);*/
-
         if (node != null) {
-            Form<ActorEntity> objFormRaw = formFactory.form(ActorEntity.class);
-            Form<ActorEntity> objForm = objFormRaw.bind(node);
+            Form<FilmEntity> objFormRaw = formFactory.form(FilmEntity.class);
+            Form<FilmEntity> objForm = objFormRaw.bind(node);
             if (objForm.hasErrors()) {
                 return badRequest(objForm.errorsAsJson());
             }
-            ActorEntity actorEntity = objForm.get();
-            actorEntity.save();
+            FilmEntity entity = objForm.get();
+            entity.save();
         }
-
         //-- Put Result
         ObjectNode nodeResult = Json.newObject();
         nodeResult.put("result", "ok");

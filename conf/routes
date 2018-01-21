@@ -22,6 +22,7 @@ GET         /actors/add                   controllers.ActorController.add()
 
 # ============================== .FILMS
 GET         /films                        controllers.FilmController.index()
+GET         /films/listApi                controllers.FilmController.dataListApi()
 GET         /films/list                   controllers.FilmController.dataList()
 GET         /films/detail                 controllers.FilmController.detail(id:Long ?= 0)
 POST        /films/save                   controllers.FilmController.save(id:Long ?= 0)
@@ -29,11 +30,12 @@ POST        /films/remove                 controllers.FilmController.remove(id:L
 GET         /films/add                    controllers.FilmController.add()
 
 # ============================== .ACTOR API
-GET         /api/v1/actors                controllers.api.ActorController.dataList(search:String ?= "", sortBy:String ?= "actor_id", orderBy ?= "desc", offset:Int ?= 0, limit:Int ?= 10)
-GET         /api/v1/films                 controllers.api.FilmController.dataList(search:String ?= "", sortBy:String ?= "film_id", orderBy ?= "desc", offset:Int ?= 0, limit:Int ?= 10)
+GET         /api/v1/actors                controllers.api.ApiActorController.dataList(search:String ?= "", sortBy:String ?= "actor_id", orderBy ?= "desc", offset:Int ?= 0, limit:Int ?= 10)
+GET         /api/v1/films                 controllers.api.ApiFilmController.dataList(search:String ?= "", sortBy:String ?= "film_id", orderBy ?= "desc", offset:Int ?= 0, limit:Int ?= 10)
+
 
 + nocsrf
-POST        /api/v1/actors/submit         controllers.api.ActorController.submit()
+POST        /api/v1/actors/submit         controllers.api.ApiActorController.submit()
 
 + nocsrf
-POST        /api/v1/films/submit          controllers.api.FilmController.submit()
+POST        /api/v1/films/submit          controllers.api.ApiFilmController.submit()

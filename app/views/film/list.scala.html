@@ -4,7 +4,7 @@
 @views.html.main("Film Lists") {
 
     <!-- MODAL FORM FOR DELETE PROCESS -->
-    <div id="modal-form-delete" class="modal fade" tabindex="-1" role="basic" aria-hidden="true">
+    <div id="modal-form-delete" class="modal fade" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-wide">
             <div class="modal-content">
                 <form id="delete-form" method="post" action="">
@@ -83,7 +83,7 @@
                                 <div class="row">
                                     <div class="col-md-12">
                                         <div class="form-group">
-
+                                                <!-- table -->
                                             <table id="table"
                                             data-toggle="table"
                                             data-url="@controllers.routes.FilmController.dataList()"
@@ -106,7 +106,7 @@
                                                     </tr>
                                                 </thead>
                                             </table>
-
+                                                <!-- /. table -->
                                         </div>
                                     </div>
                                 </div>
@@ -120,13 +120,6 @@
     </div>
 
     <script type="text/javascript">
-
-            $(document).ready(function () {
-                $(".alert").delay(4000).slideUp(200, function () {
-                    $(this).alert('close');
-                });
-            });
-
             function dialogRemove(url) {
                 $('#delete-form').attr('action', url);
                 $('#modal-form-delete').modal('show');
