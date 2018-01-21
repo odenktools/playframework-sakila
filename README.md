@@ -126,3 +126,11 @@ curl -X GET \
 [Play With Boxfuse](https://boxfuse.com/getstarted/play)
 
 [Microservices Architecture](https://www.nginx.com/blog/service-discovery-in-a-microservices-architecture)
+
+[Somoso Play CI](https://github.com/somoso/play-framework-basic-app)
+
+[Sphere Snowflake](https://github.com/commercetools/sphere-snowflake)
+
+[Travis CI ScalaOnPlay](https://github.com/gildegoma/travis-ci-ScalaOnPlay-sample)
+
+[SpringBoot 5 CI](https://github.com/springframeworkguru/spring5-mysql-recipe-app)
