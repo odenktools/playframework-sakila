@@ -8,9 +8,9 @@ jobs:
     docker:
       # specify the version you desire here
       - image: circleci/openjdk:8-jdk
-      - image: circleci/postgres:9.5
+      - image: circleci/mysql:5.5
 
-    working_directory: ~/repo
+    working_directory: ~/playframework-sakila
 
     environment:
       # Customize the JVM maximum heap limit

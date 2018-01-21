@@ -1,5 +1,3 @@
-import com.typesafe.sbt.packager.MappingsHelper._
-
 name := """odenktools-play"""
 organization := "com.odenktools"
 
@@ -34,6 +32,5 @@ libraryDependencies ++= Seq(
   "org.springframework.data" % "spring-data-jpa" % "1.9.2.RELEASE",
   "org.springframework" % "spring-expression" % "4.2.4.RELEASE"
 )
-mappings in Universal ++= directory(baseDirectory.value / "public")
 
 fork in run := true

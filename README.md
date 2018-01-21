@@ -54,6 +54,16 @@ sbt "run 9000"
 
 Now open your browser then navigate to ```http://localhost:9000``` then ```apply``` the script
 
+### Building ###
+
+```
+sbt clean stage
+```
+
+```
+target/universal/stage/bin/odenktools-play -Dhttp.address=127.0.0.1 -Dhttp.port=9000
+```
+
 ### Swagger UI
 
 [SEE UI](http://localhost:9000/assets/lib/swagger-ui/index.html?/url=http://localhost:9000/api-docs)
