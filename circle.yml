@@ -12,11 +12,12 @@ machine:
 
 database:
   override:
-    - cp conf/application.txt conf/application.conf
+    - cp conf/application.ci.txt conf/application.conf
     - echo "CREATE USER IF NOT EXISTS 'odenktools'@'localhost' IDENTIFIED BY 'new-password'" | mysql -u root
     - echo "GRANT ALL PRIVILEGES ON *.* TO 'odenktools'@'localhost' WITH GRANT OPTION" | mysql -u root
     - echo "FLUSH PRIVILEGES" | mysql -u root
     - echo "CREATE DATABASE IF NOT EXISTS odenktools_play" | mysql -u root
+    - mysql -u root -f odenktools_play < conf/sakila-schema.sql
     - mysql -u root -f odenktools_play < conf/data.sql
 
 dependencies:
