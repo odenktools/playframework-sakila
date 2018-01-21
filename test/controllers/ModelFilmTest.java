@@ -17,10 +17,10 @@ public class ModelFilmTest extends WithApplication {
     }
 
     @Test
-    public void findFilmById() {
+    public void findFilmCountZero() {
         running(fakeApplication(inMemoryDatabase("test")), () -> {
-            models.FilmEntity entity = FilmEntity.finder.byId(1L);
-            assertEquals("ACADEMY DINOSAUR", entity.getTitle());
+            int count = models.FilmEntity.finder.query().findCount();
+            assertEquals(0, count);
         });
     }
 }

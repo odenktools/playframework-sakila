@@ -1,5 +1,8 @@
 # EVOLUTION
 evolutionplugin=true
+play.evolutions.enabled=true
+play.evolutions.autoApply=false
+play.evolutions.autoApplyDowns=false
 
 # Database configuration
 db.default.driver=com.mysql.jdbc.Driver
