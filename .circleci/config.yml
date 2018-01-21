@@ -10,11 +10,11 @@ jobs:
         - master
     environment:
       JVM_OPTS: -Xmx3200m
-	  MYSQL_ALLOW_EMPTY_PASSWORD:true
-	  MYSQL_DATABASE:odenktools_play
-	  MYSQL_HOST:127.0.0.1
-	  MYSQL_ROOT_HOST:%
-	  MYSQL_USER:root
+      MYSQL_ALLOW_EMPTY_PASSWORD :true
+      MYSQL_DATABASE :odenktools_play
+      MYSQL_HOST :127.0.0.1
+      MYSQL_ROOT_HOST :%
+      MYSQL_USER:root
       TERM: dumb
     steps:
       - checkout
@@ -24,7 +24,7 @@ jobs:
           - v1-dependencies-{{ checksum "build.sbt" }}
           # fallback to using the latest cache if no exact match is found
           - v1-dependencies-
-	  - run: cp ~/playframework-sakila/conf/application.ci.txt ~/playframework-sakila/conf/application.conf
+      - run: cp ~/playframework-sakila/conf/application.ci.txt ~/playframework-sakila/conf/application.conf
       - run: cat /dev/null | sbt compile
       - save_cache:
           paths:
