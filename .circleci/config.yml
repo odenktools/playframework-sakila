@@ -24,7 +24,7 @@ jobs:
           - v1-dependencies-{{ checksum "build.sbt" }}
           # fallback to using the latest cache if no exact match is found
           - v1-dependencies-
-      - run: cp ~/playframework-sakila/conf/application.ci.txt ~/playframework-sakila/conf/application.conf
+      - run: cat ~/playframework-sakila/conf/application.conf | cp ~/playframework-sakila/conf/application.ci.txt ~/playframework-sakila/conf/application.conf
       - save_cache:
           paths:
             - ~/.m2
