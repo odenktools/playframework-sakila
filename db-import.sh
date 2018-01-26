@@ -11,7 +11,7 @@ CONF_PATH=$(cd $SCRIPT_PATH/conf && pwd)
 if [ -e $CONF_PATH/data.sql ]
 then
   # Extract and import the database.
-  pv $CONF_PATH/data.sql | mysqladmin -u 'ubuntu' --password='ubuntu' test_play
+  pv $CONF_PATH/data.sql | mysqld -u 'ubuntu' --password='ubuntu' test_play
 else
   echo "Cannot import database, $CONF_PATH/data.sql not found!"
   exit 1
