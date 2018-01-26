@@ -8,7 +8,6 @@ jobs:
         mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_bin --innodb-large-prefix=true --innodb-file-format=Barracuda
         mysqld -e "CREATE USER 'ubuntu'@'localhost' IDENTIFIED BY 'ubuntu';GRANT ALL on *.* TO 'ubuntu'@'localhost' IDENTIFIED BY 'ubuntu' WITH GRANT OPTION;FLUSH PRIVILEGES;"
         mysqld -e "CREATE DATABASE test_play;"
-        |
         # CHANGE DEFAULT MYSQL ENVIRONMENT!
         environment:
          MYSQL_USER: root
