@@ -37,4 +37,4 @@ jobs:
       - run: sudo chmod +x db-import.sh
       - run: ./db-import.sh
       # run tests!
-      - run: cat /dev/null | sbt clean stage
+      - run: cat /dev/null | sbt test:test
