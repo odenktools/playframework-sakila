@@ -5,8 +5,8 @@ play.evolutions.autoApply=true
 
 # Database configuration
 db.default.driver=com.mysql.jdbc.Driver
-db.default.url="jdbc:mysql://localhost:3306/odenktools_play?characterEncoding=UTF-8"
-db.default.username="root"
+db.default.url="jdbc:mysql://localhost:3306/test_play?characterEncoding=UTF-8"
+db.default.username="ubuntu"
 db.default.password="ubuntu"
 
 # EBEAN

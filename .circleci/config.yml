@@ -17,6 +17,9 @@ jobs:
       TERM: dumb
     steps:
       - checkout
+      - run: echo '/usr/local/mysql/bin/:$PATH' >> $BASH_ENV
+      - run: sudo mysql -e "CREATE USER 'ubuntu'@'localhost' IDENTIFIED BY 'ubuntu';GRANT ALL on *.* TO 'ubuntu'@'localhost' IDENTIFIED BY 'ubuntu' WITH GRANT OPTION;FLUSH PRIVILEGES;
+      - run: sudo mysql -e "CREATE DATABASE test_play;"
       - run: sudo apt-get install pv
       - restore_cache:
           keys:
@@ -24,7 +27,6 @@ jobs:
           # fallback to using the latest cache if no exact match is found
           - v1-dependencies-
       - run: cp ~/playframework-sakila/conf/application.ci.txt ~/playframework-sakila/conf/application.conf
-      - run: cat /dev/null | sbt compile
       - save_cache:
           paths:
             - ~/.m2
