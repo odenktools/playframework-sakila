@@ -1,13 +1,13 @@
 # EVOLUTION
 play.evolutions.enabled=true
 play.evolutions.autoApply=true
-play.evolutions.autoApplyDowns=true
+#play.evolutions.autoApplyDowns=true
 
 # Database configuration
 db.default.driver=com.mysql.jdbc.Driver
 db.default.url="jdbc:mysql://localhost:3306/odenktools_play?characterEncoding=UTF-8"
-db.default.username="odenktools"
-db.default.password="new-password"
+db.default.username="root"
+db.default.password="ubuntu"
 
 # EBEAN
 ebean.default = "models.*"

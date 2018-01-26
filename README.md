@@ -134,3 +134,5 @@ curl -X GET \
 [Travis CI ScalaOnPlay](https://github.com/gildegoma/travis-ci-ScalaOnPlay-sample)
 
 [SpringBoot 5 CI](https://github.com/springframeworkguru/spring5-mysql-recipe-app)
+
+[CircleCI SpringBoot](https://springframework.guru/using-circleci-to-build-spring-boot-microservices/)

@@ -27,7 +27,7 @@ public class ModelActorTest extends WithApplication {
     public void testActorInsert() {
         running(fakeApplication(inMemoryDatabase("test")), () -> {
             models.ActorEntity entity = new models.ActorEntity();
-            entity.setActorId(1L);
+            entity.setActorId(201L);
             entity.setFirstName("John");
             entity.setLastName("Doe");
             entity.save();
@@ -38,7 +38,7 @@ public class ModelActorTest extends WithApplication {
     @Test
     public void findActorById() {
         running(fakeApplication(inMemoryDatabase("test")), () -> {
-            models.ActorEntity entity = models.ActorEntity.finder.byId(1L);
+            models.ActorEntity entity = models.ActorEntity.finder.byId(201L);
             assertEquals("John", entity.getFirstName());
         });
     }
@@ -46,7 +46,7 @@ public class ModelActorTest extends WithApplication {
     private boolean deleteId() {
         TxScope scope = TxScope.requiresNew().setIsolation(TxIsolation.DEFAULT);
         Boolean deleted = Ebean.execute(scope, () -> {
-            ActorEntity entity = ActorEntity.finder.ref(1L);
+            ActorEntity entity = ActorEntity.finder.ref(201L);
             return entity.delete();
         });
         return deleted;
