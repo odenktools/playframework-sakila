@@ -10,7 +10,6 @@ jobs:
          MYSQL_USER: root
          MYSQL_ROOT_PASSWORD: ubuntu
          MYSQL_DATABASE: odenktools_play
-
     working_directory: ~/playframework-sakila
     branches:
       only:
@@ -21,8 +20,9 @@ jobs:
     steps:
       - checkout
       - run: echo '/usr/local/mysql/bin/:$PATH' >> $BASH_ENV
-      - run: sudo mysqld -e "CREATE USER 'ubuntu'@'localhost' IDENTIFIED BY 'ubuntu';GRANT ALL on *.* TO 'ubuntu'@'localhost' IDENTIFIED BY 'ubuntu' WITH GRANT OPTION;FLUSH PRIVILEGES;
-      - run: sudo mysqld -e "CREATE DATABASE test_play;"
+      - run: mysql -h 127.0.0.1 -u root odenktools_play
+      - run: mysqld -e "CREATE USER 'ubuntu'@'localhost' IDENTIFIED BY 'ubuntu';GRANT ALL on *.* TO 'ubuntu'@'localhost' IDENTIFIED BY 'ubuntu' WITH GRANT OPTION;FLUSH PRIVILEGES;
+      - run: mysqld -e "CREATE DATABASE test_play;"
       - run: sudo apt-get install pv
       - restore_cache:
           keys:
