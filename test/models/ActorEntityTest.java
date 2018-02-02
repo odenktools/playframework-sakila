@@ -1,4 +1,4 @@
-package controllers;
+package test;
 
 import io.ebean.Ebean;
 import io.ebean.TxIsolation;
@@ -16,7 +16,7 @@ import java.util.List;
 import static org.junit.Assert.assertEquals;
 import static play.test.Helpers.*;
 
-public class ModelActorTest extends WithApplication {
+public class FilmEntityTest extends WithApplication {
 
     @Override
     protected Application provideApplication() {
@@ -27,7 +27,7 @@ public class ModelActorTest extends WithApplication {
     public void testActorInsert() {
         running(fakeApplication(inMemoryDatabase("test")), () -> {
             models.ActorEntity entity = new models.ActorEntity();
-            entity.setActorId(201L);
+            entity.setActorId(1L);
             entity.setFirstName("John");
             entity.setLastName("Doe");
             entity.save();
@@ -38,7 +38,7 @@ public class ModelActorTest extends WithApplication {
     @Test
     public void findActorById() {
         running(fakeApplication(inMemoryDatabase("test")), () -> {
-            models.ActorEntity entity = models.ActorEntity.finder.byId(201L);
+            models.ActorEntity entity = models.ActorEntity.finder.byId(1L);
             assertEquals("John", entity.getFirstName());
         });
     }
@@ -46,7 +46,7 @@ public class ModelActorTest extends WithApplication {
     private boolean deleteId() {
         TxScope scope = TxScope.requiresNew().setIsolation(TxIsolation.DEFAULT);
         Boolean deleted = Ebean.execute(scope, () -> {
-            ActorEntity entity = ActorEntity.finder.ref(201L);
+            ActorEntity entity = ActorEntity.finder.ref(1L);
             return entity.delete();
         });
         return deleted;

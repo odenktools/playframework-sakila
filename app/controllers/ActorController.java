@@ -1,5 +1,7 @@
 package controllers;
 
+import com.google.common.base.Function;
+import play.data.validation.ValidationError;
 import play.mvc.*;
 import models.ActorEntity;
 
@@ -136,8 +138,10 @@ public class ActorController extends Controller {
             row.put("created_at", utils.DateUtils.date2Str(accountListFilter.getCreatedAt(), "dd-MM-yyyy HH:mm:ss"));
             row.put("updated_at", utils.DateUtils.date2Str(accountListFilter.getUpdatedAt(), "dd-MM-yyyy HH:mm:ss"));
 
+            long id = accountListFilter.getActorId();
+
             String action = "" +
-                    "<a data-toggle='tooltip' title='Detail an actor' href=\"" + routes.ActorController.detail(accountListFilter.getActorId()) + "\" onclick=\"\"><i class=\"fa fa-pencil\" title=\"Detail\"></i></a>&nbsp;&nbsp;&nbsp;" +
+                    "<a data-toggle='tooltip' title='Detail an actor' href=\"" + routes.ActorController.detail(id) + "\" onclick=\"\"><i class=\"fa fa-pencil\" title=\"Detail\"></i></a>&nbsp;&nbsp;&nbsp;" +
                     "<a data-toggle='tooltip' title='Delete an actor' href=\"javascript:dialogRemove('" + routes.ActorController.remove(accountListFilter.getActorId()) + "');\"><i class=\"fa fa-trash\" title=\"Delete\"></i></a>&nbsp;";
 
             row.put("action", action);
@@ -156,7 +160,7 @@ public class ActorController extends Controller {
         ActorEntity actorEntity = ActorEntity.finder.ref(id);
         logger.debug("get ID: {} NAME : {} CREATE_AT: {}", actorEntity.getActorId(), actorEntity.getFirstName(), actorEntity.getCreatedAt());
         Form<ActorEntity> formData = formFactory.form(ActorEntity.class).fill(actorEntity);
-        return ok(views.html.account.detail.render("Edit an Actor", actorEntity));
+        return ok(views.html.account.detail.render(formData, "Edit an Actor", id));
     }
 
     /**
@@ -167,11 +171,10 @@ public class ActorController extends Controller {
     @AddCSRFToken
     @Transactional
     public Result remove(long id) {
+
         ActorEntity actorEntity = ActorEntity.finder.ref(id);
 
-        int status = 0;
         boolean deleted = actorEntity.delete();
-
         if (deleted) {
             flash("success", "Data success deleted");
         } else {
@@ -191,62 +194,26 @@ public class ActorController extends Controller {
     @Transactional
     public Result save(long id) {
 
-        ActorEntity actorEntity = null;
+        ActorEntity actorEntity;
 
-        Boolean onError = false;
-
-        if (id != 0) {
-            actorEntity = ActorEntity.finder.byId(id);
+        //USING FORM MODELS
+        final Form<ActorEntity> form = this.formFactory.form(ActorEntity.class).bindFromRequest();
+        if (form.hasErrors()) {
+            flash("error", "Fields has error");
+            return badRequest(views.html.account.detail.render(form, "Edit an Actor", id));
+        }
+        ActorEntity formData = form.get();
+        if (form.get().getActorId() != null) {
+            actorEntity = ActorEntity.finder.byId(form.get().getActorId());
+            actorEntity.setFirstName(formData.getFirstName());
+            actorEntity.setLastName(formData.getLastName());
+            actorEntity.update();
         } else {
             actorEntity = new ActorEntity();
-        }
-
-        DynamicForm form = formFactory.form().bindFromRequest();
-        String first_name = form.get("first_name").toString();
-        String last_name = form.get("last_name").toString();
-
-        if (Helpers.isEmpty(first_name)) {
-            flash("error", "Please fill ``first_name``");
-            onError = true;
-        } else if (Helpers.isEmpty(last_name)) {
-            flash("error", "Please fill ``last_name``");
-            onError = true;
-        }
-
-        if (!onError) {
-            assert actorEntity != null;
-            actorEntity.setFirstName(first_name);
-            actorEntity.setLastName(last_name);
+            actorEntity.setFirstName(formData.getFirstName());
+            actorEntity.setLastName(formData.getLastName());
             actorEntity.save();
-            flash("success", "Data success saved");
-        } else {
-            return redirect(routes.ActorController.add());
         }
-
-		/* //USING FORM MODELS
-        Form<ActorEntity> form = this.formFactory.form(ActorEntity.class).bindFromRequest();
-		
-		if (form.hasErrors()) {
-			flash("error", "Please correct errors bellow.");
-			return redirect(routes.ActorController.add());
-		}
-
-		ActorEntity newComputerData = form.get();
-
-		if(form.get().getActorId() != null){
-			actorEntity = ActorEntity.find.byId(form.get().getActorId());
-			
-			actorEntity.setFirstName(newComputerData.getFirstName());
-			actorEntity.setLastName(newComputerData.getLastName());
-			actorEntity.update();
-			
-		}else{
-			actorEntity = new ActorEntity();
-			actorEntity.setFirstName(newComputerData.getFirstName());
-			actorEntity.setLastName(newComputerData.getLastName());
-			actorEntity.save();
-		}		
-		*/
 
         return GO_HOME;
     }
@@ -257,8 +224,8 @@ public class ActorController extends Controller {
      * @return Result
      */
     public Result add() {
-        ActorEntity actorEntity = new ActorEntity();
-        return ok(views.html.account.detail.render("Add an Actor", actorEntity));
+        Form<ActorEntity> form = this.formFactory.form(ActorEntity.class).bindFromRequest();
+        return ok(views.html.account.detail.render(form, "Add an Actor", null));
     }
 
     /**

@@ -1,4 +1,4 @@
-package controllers;
+package models;
 
 import models.FilmEntity;
 import org.junit.Test;
@@ -8,19 +8,13 @@ import play.test.WithApplication;
 
 import static org.junit.Assert.assertEquals;
 import static play.test.Helpers.*;
+import org.junit.*;
+import static org.junit.Assert.*;
 
-public class ModelFilmTest extends WithApplication {
+public class FilmEntityTest extends WithApplication {
 
     @Override
     protected Application provideApplication() {
         return new GuiceApplicationBuilder().build();
-    }
-
-    @Test
-    public void findFilmCountZero() {
-        running(fakeApplication(inMemoryDatabase("test")), () -> {
-            int count = models.FilmEntity.finder.query().findCount();
-            assertEquals(0, count);
-        });
     }
 }
