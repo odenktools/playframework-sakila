@@ -16,7 +16,7 @@ import java.util.List;
 import static org.junit.Assert.assertEquals;
 import static play.test.Helpers.*;
 
-public class FilmEntityTest extends WithApplication {
+public class ActorEntityTest extends WithApplication {
 
     @Override
     protected Application provideApplication() {
