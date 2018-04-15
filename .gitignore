@@ -16,7 +16,7 @@ target
 /.settings
 /RUNNING_PID
 
-
+/backups
 tmp
 .history
 dist
