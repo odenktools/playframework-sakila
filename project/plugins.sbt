@@ -1,9 +1,4 @@
-resolvers ++= Seq(
-  Resolver.sonatypeRepo("public"),
-  Resolver.mavenLocal,
-  Resolver.sonatypeRepo("snapshots"),
-  Resolver.sonatypeRepo("releases")
-)
+resolvers += "Typesafe repository" at "http://repo.typesafe.com/typesafe/releases/"
 
 updateOptions := updateOptions.value.withCachedResolution(true)
 

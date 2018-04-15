@@ -74,7 +74,6 @@ public class FilmEntity extends Model {
     @Formats.DateTime(pattern = "yyyy-MM-dd HH:mm:ss")
     private Timestamp updatedAt;
 
-
     @Column(name = "film_id", nullable = false)
     public Long getFilmId() {
         return filmId;

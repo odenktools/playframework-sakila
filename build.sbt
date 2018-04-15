@@ -24,6 +24,7 @@ libraryDependencies ++= Seq(
   "org.apache.logging.log4j" % "log4j-slf4j-impl" % "2.4.1",
   "org.apache.logging.log4j" % "log4j-api" % "2.4.1",
   "org.apache.logging.log4j" % "log4j-core" % "2.4.1",
+  "org.apache.commons" % "commons-lang3" % "3.7",
   "com.auth0" % "java-jwt" % "3.2.0",
   "joda-time" % "joda-time" % "2.9.9",
   "javax.inject" % "javax.inject" % "1",

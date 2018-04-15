@@ -23,6 +23,7 @@
 <script src="@routes.Assets.versioned("adminlte/plugins/fuelux/js/spinner.min.js")"></script>
 @********************* TABLES *********************@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.11.1/bootstrap-table.min.js"></script>
+
 @********************* APPS *********************@
 <script src="@routes.Assets.versioned("adminlte/js/app.min.js")"></script>
 <script src="@routes.Assets.versioned("adminlte/js/demo.js")"></script>
@@ -38,10 +39,10 @@
             maximumValue: '999999999999.99',
             historySize: 3,
             decimalPlaces: 2
-        };
+        }
         $(document).ready(function () {
 
-            $('#spinnerZero').spinner({value: 0, min: 0});
+            $('.spinnerZero').spinner({value: 0, min: 0});
 
             $(".alert").delay(2000).slideUp(500, function () {
                 $(this).alert('close');
@@ -52,7 +53,13 @@
                 placeholder: "Select",
                 allowClear: true
             });
-
+			
+			if ($().select2) {
+				$('.select2me').select2({
+					placeholder: "Select",
+					allowClear: true
+				});
+			}
             //Datemask dd/mm/yyyy
             $("#datemask").inputmask("dd/mm/yyyy", {
                 "placeholder": "dd/mm/yyyy"
@@ -62,11 +69,13 @@
             $("#datemask2").inputmask("mm/dd/yyyy", {
                 "placeholder": "mm/dd/yyyy"
             });
+
             //Money Euro
             $("[data-mask]").inputmask();
 
             //Date range picker
             $('#reservation').daterangepicker();
+
             //Date range picker with time picker
             $('#reservationtime').daterangepicker({
                 timePicker: true,
@@ -75,7 +84,7 @@
             });
 
             //Date range as a button
-            $('#daterange-btn').daterangepicker({
+            $('.daterange-btn').daterangepicker({
                         ranges: {
                             'Today': [moment(), moment()],
                             'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
@@ -117,11 +126,13 @@
                 checkboxClass: 'icheckbox_minimal-blue',
                 radioClass: 'iradio_minimal-blue'
             });
+
             //Red color scheme for iCheck
             $('input[type="checkbox"].minimal-red, input[type="radio"].minimal-red').iCheck({
                 checkboxClass: 'icheckbox_minimal-red',
                 radioClass: 'iradio_minimal-red'
             });
+
             //Flat red color scheme for iCheck
             $('input[type="checkbox"].flat-red, input[type="radio"].flat-red').iCheck({
                 checkboxClass: 'icheckbox_flat-green',

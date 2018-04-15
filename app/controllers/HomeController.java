@@ -1,12 +1,23 @@
 package controllers;
 
+import play.api.Configuration;
+import play.data.FormFactory;
+import play.http.HttpErrorHandler;
+import play.libs.ws.WSClient;
 import play.mvc.*;
+
+import javax.inject.Inject;
 
 /**
  * This controller contains an action to handle HTTP requests
  * to the application's home page.
  */
 public class HomeController extends Controller {
+
+    @Inject
+    public HomeController() {
+
+    }
 
     /**
      * An action that renders an HTML page with a welcome message.

@@ -1,0 +1,9 @@
+play:
+  image: phxdevops/phxjug-ctr-base-play:2.4.3
+  environment:
+    - MICROSERVICE_NAME=odenktools-play
+    - PORT=9001
+  ports:
+    - "9001:9000"
+  volumes:
+    - "./target/universal/stage:/home/app"

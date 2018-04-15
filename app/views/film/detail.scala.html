@@ -33,10 +33,9 @@
 
                 <div class="col-md-12">
                     <div class="box box-primary">
-                            <!-- form start -->
+						<!-- form start -->
                         @form(CSRF(controllers.routes.FilmController.save(entityMap.getFilmId())), 'id -> "save-form", 'name -> "save-form") {
                             <div class="box-body">
-
                                 @if(flash.containsKey("error")) {
                                     <div class="alert alert-danger alert-dismissible">
                                         <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
@@ -44,17 +43,16 @@
                                         @flash.get("error")
                                     </div>
                                 }
-
-                                    <!-- .form-group -->
+                                <!-- .form-group -->
                                 <div class="form-group">
-                                    <label for="title">Title</label>
+                                    <label class="control-label" for="title">Title <span class="required">*required</span></label>
                                     <input id="title" name="title" class="form-control" placeholder="Enter title" value="@entityMap.getTitle()">
                                 </div>
-                                    <!-- /.form-group -->
+                                <!-- /.form-group -->
 
-                                    <!-- .form-group -->
+                                <!-- .form-group -->
                                 <div class="form-group">
-                                    <label for="rating">Rating</label>
+                                    <label class="control-label" for="rating">Rating <span class="required">*required</span></label>
 
                                     <select id="rating" name="rating" class="form-control select2">
                                         <option value="" selected="selected">-</option>
@@ -64,11 +62,11 @@
                                         }
                                     </select>
                                 </div>
-                                    <!-- /.form-group -->
+                                <!-- /.form-group -->
 
-                                    <!-- .form-group -->
+                                <!-- .form-group -->
                                 <div class="form-group">
-                                    <label for="language_id">Language</label>
+                                    <label class="control-label" for="language_id">Language <span class="required">*required</span></label>
                                     <select id="language_id" name="language_id" class="form-control select2">
                                         <option value="" selected="selected">-</option>
                                         @for((k, v) <- listsLanguage) {
@@ -81,32 +79,33 @@
                                         }
                                     </select>
                                 </div>
-                                    <!-- /.form-group -->
+                                <!-- /.form-group -->
 
-                                    <!-- .form-group -->
-                                <div class="form-group">
-                                    <label for="original_language_id">Original Language</label>
-                                    <select id="original_language_id" name="original_language_id" class="form-control select2">
+                                <!-- .form-group -->
+                                <div class="form-group" data-error-container="#original_lang_error">
+                                    <label class="control-label" for="original_language_id">Original Language <span class="required">*required</span></label>
+                                    <select id="original_language_id" name="original_language_id" class="form-control select2me">
                                         <option value="" selected="selected">-</option>
                                         @for((k, v) <- listsLanguage) {
                                             <option value="@k" @if(k == entityMap.getOriginalLanguageId()) {
                                                 selected="selected"}>@v</option>
                                         }
                                     </select>
+									<div id="original_lang_error"></div>
                                 </div>
-                                    <!-- /.form-group -->
+                                <!-- /.form-group -->
 
-                                    <!-- .form-group -->
+                                <!-- .form-group -->
                                 <div class="form-group">
-                                    <label for="release_year">Release Year</label>
+                                    <label class="control-label" for="release_year">Release Year <span class="required">*required</span></label>
                                     <input type="text" class="form-control yearpicker" id="" name="release_year" value="@entityMap.getReleaseYear()"/>
                                 </div>
-                                    <!-- /.form-group -->
+                                <!-- /.form-group -->
 
-                                    <!-- .form-group -->
+                                <!-- .form-group -->
                                 <div class="form-group">
-                                    <label for="rental_duration">Rental Duration</label>
-                                    <div id="spinnerZero">
+                                    <label class="control-label" for="rental_duration">Rental Duration <span class="required">*required</span></label>
+                                    <div class="spinnerZero">
                                         <div class="input-group">
                                             <input type="text" name="rental_duration" class="spinner-input form-control"  value="@entityMap.getRentalDuration()" maxlength="3">
                                             <div class="spinner-buttons input-group-btn">
@@ -120,19 +119,20 @@
                                         </div>
                                     </div>
                                 </div>
-                                    <!-- /.form-group -->
+								<!-- /.form-group -->
 
-                                    <!-- .form-group -->
+                                <!-- .form-group -->
                                 <div class="form-group">
-                                    <label for="rental_rate">Rental Rate</label>
-                                    <input id="rental_rate" name="rental_rate" class="form-control" placeholder="Enter Rental Rate" value="@entityMap.getRentalRate()">
+                                    <label class="control-label" for="rental_rate">Rental Rate <span class="required">*required</span></label>
+                                    <input id="id-rental-rate" name="rental_rate" class="form-control" placeholder="Enter Rental Rate" value="@entityMap.getRentalRate()">
+									<span class="help-block"></span>
                                 </div>
                                     <!-- /.form-group -->
 
                                     <!-- .form-group -->
                                 <div class="form-group">
-                                    <label for="replacement_cost">Replacement Cost</label>
-                                    <input id="replacement_cost" name="replacement_cost" class="form-control money-mask" placeholder="Enter Replacement cost" value="@entityMap.getReplacementCost()">
+                                    <label class="control-label" for="replacement_cost">Replacement Cost <span class="required">*required</span></label>
+                                    <input id="id-replacement-cost" name="replacement_cost" class="form-control money-mask" placeholder="Enter Replacement cost" value="@entityMap.getReplacementCost()">
                                 </div>
                                     <!-- /.form-group -->
 
@@ -144,7 +144,7 @@
                                 <button type="submit" class="btn btn-info pull-right">Submit</button>
                             </div>
                         }
-                            <!-- form end -->
+                    <!-- form end -->
                     </div>
                 </div>
 
@@ -155,11 +155,18 @@
     <script type="text/javascript">
             $(document).ready(function () {
 
-                new AutoNumeric($(".money-mask")[0], CurrencySettings);
+                new AutoNumeric($("#id-replacement-cost")[0], CurrencySettings);
+				new AutoNumeric($("#id-rental-rate")[0], CurrencySettings);
 
-                $("#save-form").validate({
+				var form = $('#save-form');
+
+                form.validate({
+					errorElement: 'span', //default input error message container
+					errorClass: 'help-block help-block-error', // default input error message class
+					focusInvalid: false, // do not focus the last invalid input
+					ignore: "", // validate all fields including form hidden input
                     rules: {
-                        // this is the NAME attribute of the field, not ID
+                        // this is the ``NAME`` attribute of the field, not ``ID``
                         title: {
                             required: true
                         },
@@ -193,10 +200,10 @@
                             required: "Rating is required."
                         },
                         language_id: {
-                            required: "language id is required."
+                            required: "Language is required."
                         },
                         original_language_id: {
-                            required: "original language is required."
+                            required: "Original Language is required."
                         },
                         release_year: {
                             required: "Release year is required."
@@ -211,11 +218,63 @@
                             required: "Replacement Cost is required."
                         }
                     },
+					highlight: function (element) { // hightlight error inputs
+					   $(element)
+							.closest('.form-group').addClass('has-error'); // set error class to the control group
+					},
+					unhighlight: function (element) { // revert the change done by hightlight
+						$(element)
+							.closest('.form-group').removeClass('has-error'); // set error class to the control group
+					},
+					success: function (label) {
+						label
+							.closest('.form-group').removeClass('has-error'); // set success class to the control group
+					},
+					errorPlacement: function (error, element) { // render error placement for each input type
+						if (element.parent(".input-group").size() > 0) {
+							error.insertAfter(element.parent(".input-group"));
+						} else if (element.attr("data-error-container")) { 
+							error.appendTo(element.attr("data-error-container"));
+						} else if (element.parents('.radio-list').size() > 0) { 
+							error.appendTo(element.parents('.radio-list').attr("data-error-container"));
+						} else if (element.parents('.radio-inline').size() > 0) { 
+							error.appendTo(element.parents('.radio-inline').attr("data-error-container"));
+						} else if (element.parents('.checkbox-list').size() > 0) {
+							error.appendTo(element.parents('.checkbox-list').attr("data-error-container"));
+						} else if (element.parents('.checkbox-inline').size() > 0) { 
+							error.appendTo(element.parents('.checkbox-inline').attr("data-error-container"));
+						} else if (element.parents('.select2').size() > 0) { 
+							error.insertAfter(element); // for other inputs, just perform default behavior
+						} else {
+							error.insertAfter(element); // for other inputs, just perform default behavior
+						}
+					},
                     submitHandler: function (form) {
-                        GlobalMoney.global.unformat();
-                        form.submit();
+                        //GlobalMoney.global.unformat();
+						form[0].submit(); // submit the form
+                        //form.submit();
                     }
                 });
-            });
+
+				//revalidate the chosen dropdown value and show error or success message for the input
+				$('.select2', form).change(function () {
+					form.validate().element($(this));
+				});
+
+				//revalidate the chosen dropdown value and show error or success message for the input
+				$('.select2me', form).change(function () {
+					form.validate().element($(this));
+				});
+
+				//revalidate the chosen yearpicker value and show error or success message for the input
+				$('.yearpicker', form).change(function () {
+					form.validate().element($(this));
+				});
+
+				//revalidate the chosen date-picker,form-control value and show error or success message for the input
+				$('.date-picker .form-control').change(function() {
+					form.validate().element($(this));
+				})
+			});
     </script>
 }

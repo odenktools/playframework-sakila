@@ -31,11 +31,13 @@ import utils.Helpers;
 import utils.NakedSSLCerts;
 
 import javax.inject.Inject;
+import java.io.InputStream;
 import java.math.BigDecimal;
 import java.text.*;
 import java.util.*;
 import java.util.concurrent.CompletionStage;
 import java.util.concurrent.TimeUnit;
+import java.util.function.BiConsumer;
 import java.util.function.Function;
 
 import static org.apache.http.HttpHeaders.TIMEOUT;
@@ -121,7 +123,6 @@ public class FilmController extends Controller implements DefaultBodyReadables {
 
         Integer offset = Integer.valueOf(params.get("offset")[0]);
 
-
         final CompletionStage<WSResponse> responseThreePromise = wsClient
                 .url("http://localhost:9000/api/v1/films")
                 .addHeader("Content-Type", "application/json")
@@ -151,11 +152,21 @@ public class FilmController extends Controller implements DefaultBodyReadables {
         return result;
     }
 
-    public String basePost(String requestBody) {
+    /*public CompletionStage<Result> index() {
+        Form<CheckoutForm> checkoutForm = formFactory.form(CheckoutForm.class);
+        CompletionStage<Cart> cartFuture = CompletableFuture.supplyAsync(() -> cartService.getCartForUser(), ec.current());
+        return cartFuture.thenApply(cart -> ok(index.render(cart, checkoutForm)));
+    }*/
 
-        CompletionStage<Result> result;
+    /**
+     * Implement REST API
+     *
+     * @param requestBody
+     * @return String
+     */
+    public CompletionStage<Result> basePost(String requestBody) {
         final CompletionStage<WSResponse> responseThreePromise = wsClient
-                .url("http://stagingapi.masskredit.co.id/master/education")
+                .url("https://api.stagingmasskredit.com/master/education")
                 .addHeader("api_key", "Ys9yN3fzSOB71UKf353ad839zuYMqLi4")
                 .setContentType("application/json")
                 .get();
@@ -172,11 +183,11 @@ public class FilmController extends Controller implements DefaultBodyReadables {
             } else {
                 return new Result(response.getStatus());
             }
-        }).toString();
+        });
     }
 
     /**
-     * Get list actors (search available)
+     * Get list actors (search available).
      *
      * @return Result
      */
@@ -199,8 +210,30 @@ public class FilmController extends Controller implements DefaultBodyReadables {
         if (params.get("search") != null) {
             search = params.get("search")[0];
         }
+        CompletionStage<Result> basePost = this.basePost("");
 
-        Logger.debug("XXXX {}", basePost(""));
+        CompletionStage<Result> promiseOfResult = basePost.thenApplyAsync(pi ->
+                ok("PI value computed: " + pi)
+        );
+
+        this.basePost("").thenApplyAsync(answer -> {
+
+            Source<ByteString, ?> body = answer.body().dataStream();
+
+            // uses Http.Context
+            Logger.debug("SSSSSSS {}", body);
+            ctx().flash().put("info", "Response updated!");
+            return ok("answer was " + answer);
+        });
+
+        /*basePost.whenComplete(new BiConsumer<Result, Throwable>() {
+            @Override
+            public void accept(Result result, Throwable throwable) {
+                //Source<ByteString, ?> body = result.body().as("application/json");
+                Logger.debug("SSSSSSS {}", result.body().as("application/json").toString());
+            }
+        });*/
+
 
         Integer offset = Integer.valueOf(params.get("offset")[0]);
 
@@ -250,7 +283,7 @@ public class FilmController extends Controller implements DefaultBodyReadables {
     }
 
     /**
-     * Get detail page
+     * Get detail page.
      *
      * @return Result
      */
@@ -280,7 +313,7 @@ public class FilmController extends Controller implements DefaultBodyReadables {
     }
 
     /**
-     * Remove An Actor
+     * Remove An Actor.
      *
      * @return Result
      */

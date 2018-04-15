@@ -19,7 +19,7 @@ import play.data.FormFactory;
 import javax.inject.*;
 
 import play.db.ebean.Transactional;
-
+import java.io.File;
 import utils.Helpers;
 import play.filters.csrf.*;
 import play.Logger;
@@ -28,8 +28,9 @@ import play.Logger.ALogger;
 import com.google.common.base.Preconditions;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.builder.ToStringBuilder;
-
+import models.ImagesEntity;
 import org.slf4j.MDC;
+import java.io.*;
 
 /**
  * This controller contains an action to handle HTTP requests
@@ -116,6 +117,7 @@ public class ActorController extends Controller {
                 .setFirstRow(offset)
                 .orderBy(sortBy + " " + orderBy)
                 .findList();
+
         //-- Counting Row
         io.ebean.PagedList queryCount = queryBuilder
                 .setMaxRows(Integer.parseInt(limit))
@@ -207,15 +209,27 @@ public class ActorController extends Controller {
             actorEntity = ActorEntity.finder.byId(form.get().getActorId());
             actorEntity.setFirstName(formData.getFirstName());
             actorEntity.setLastName(formData.getLastName());
+			setImages(actorEntity);
             actorEntity.update();
         } else {
             actorEntity = new ActorEntity();
             actorEntity.setFirstName(formData.getFirstName());
             actorEntity.setLastName(formData.getLastName());
+			setImages(actorEntity);
             actorEntity.save();
         }
 
         return GO_HOME;
+    }
+
+    private void setImages(ActorEntity entity) {
+		Http.MultipartFormData<File> body = request().body().asMultipartFormData();
+        Http.MultipartFormData.FilePart<File> picture = body.getFile("images");
+        if (picture != null) {
+            java.io.File merchantIconFile = picture.getFile();
+			String fileName = picture.getFilename();
+			entity.setImages(ImagesEntity.saveImage(fileName));
+        }
     }
 
     /**

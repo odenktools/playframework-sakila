@@ -1,0 +1,8 @@
+.control-label {
+  margin-top: 1px;
+}
+.control-label .required {
+  color: #e02222;
+  font-size: 12px;
+  padding-left: 2px;
+}

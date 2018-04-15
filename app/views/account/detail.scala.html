@@ -26,7 +26,7 @@
                 <div class="col-md-12">
                     <div class="box box-primary">
                             <!-- form start -->
-                        @form(CSRF(controllers.routes.ActorController.save(id)), 'id -> "save-form", 'name -> "save-form") {
+                        @form(CSRF(controllers.routes.ActorController.save(id)), 'enctype -> "multipart/form-data", 'id -> "save-form", 'name -> "save-form") {
                             <div class="box-body">
 
                                 @if(flash.containsKey("error")) {
@@ -51,7 +51,14 @@
                                     <input name="lastName" class="form-control" placeholder="Enter last name" value="@formData.field("lastName").value">
                                 </div>
                                     <!-- /.form-group -->
+                                    <!-- .form-group -->
 
+                                <div class="form-group">
+                                    <label for="last_name">Images</label>
+                                    <input type="file" name="images" id="id-actor-images" value="@formData.field("images").value">
+                                </div>
+                                    <!-- /.form-group -->
+									
                             </div>
                                 <!-- /.box-body -->
 
@@ -69,6 +76,69 @@
     </div>
 
     <script type="text/javascript">
+		 $(document).ready(function () {
+			var photoActor = $('#id-actor-images');
+			
+			function readURLImage(input, num) {
+				if (input.files && input.files[0]) {
+					var reader = new FileReader();
+					reader.onload = function (e) {
+						console.log(e.target);
+						console.log(e.target.result);
+						$("#img_image"+num).attr('src', e.target.result);
+					};
+					reader.readAsDataURL(input.files[0]);
+				}
+			}
 
+			$('#id-actor-images').change(function(){
+				readURLImage(this, 1);
+			});
+
+			var validator = $("#save-form").validate({
+                rules: {
+                    firstName: "required",
+					lastName: "required",
+					images: "required"
+				},
+                messages: {
+                    firstName: "firstName IsRequired",
+					lastName: "lastName IsRequired",
+					images: "images IsRequired"
+                },
+                errorPlacement: function (error, element) {
+                    if (element.parent('.input-group').length) {
+                        error.insertAfter(element.parent());
+                    } else {
+                        error.insertAfter(element);  // ng-multiple-bs-select
+                    }
+                }
+			});
+			
+            photoActor.change(function (e) {
+                photoActor.removeData('imageWidth');
+                var file1, img1, reader1;
+                file1 = this.files[0];
+                if (file1.type.match(/image\/.*/)) {
+                    img1 = new Image();
+                    reader1 = new FileReader();
+                    img1.onload = function () {
+                        var widthImage1 = this.width;
+                        var heightImage1 = this.height;
+                        photoActor.data('imageWidth', widthImage1);
+                        photoActor.data('imageHeight', heightImage1);
+                        validator.element(photoActor);
+                    };
+                    img1.onerror = function () {
+                        $.notify("not a valid file: " + file1.type, "error");
+                    };
+                    img1.src = _URL1.createObjectURL(file1);
+                    reader1.readAsDataURL(file1);
+                } else {
+                    validator.element(photoActor);
+                }
+            });
+
+		 });
     </script>
 }

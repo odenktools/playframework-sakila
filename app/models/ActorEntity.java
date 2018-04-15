@@ -44,7 +44,10 @@ public class ActorEntity extends Model implements Validatable<List<ValidationErr
     @Constraints.MaxLength(value = 45, message = "Maximum value 50")
     @Column(name = "last_name", nullable = false, length = 45)
     private String lastName;
-
+	
+    @Column(name = "images", columnDefinition = "TEXT")
+    private String images;
+	
     @Temporal(TemporalType.TIMESTAMP)
     @Formats.DateTime(pattern = "yyyy-MM-dd HH:mm:ss")
     @Column(updatable = false)
@@ -72,6 +75,14 @@ public class ActorEntity extends Model implements Validatable<List<ValidationErr
 
     public String getLastName() {
         return lastName;
+    }
+	
+    public String getImages() {
+        return images;
+    }
+
+    public void setImages(String images) {
+        this.images = images;
     }
 
     public void setLastName(String lastName) {
