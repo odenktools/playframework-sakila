@@ -7,8 +7,13 @@ play.evolutions.autoApplyDowns=false
 # Database configuration
 db.default.driver=com.mysql.jdbc.Driver
 db.default.url="jdbc:mysql://localhost:3306/odenktools_play?characterEncoding=UTF-8"
-db.default.username="odenktools"
-db.default.password="new-password"
+
+#db.default.driver=org.postgresql.Driver
+#db.default.url="jdbc:postgresql://localhost:5432/odenktools_play"
+
+#db.default.username="postgres"
+db.default.username="root"
+db.default.password=""
 
 # EBEAN
 ebean.default="models.*"
@@ -27,7 +32,8 @@ play.logger.configurator=Log4J2LoggerConfigurator
 swagger.api.basepath="/api/v1"
 play.modules.enabled += "play.modules.swagger.SwaggerModule"
 
-play.filters.enabled=[]
+#play.filters.enabled=[]
+play.filters.enabled += "play.filters.csrf.CSRFFilter"
 
 play.filters.gzip {
     contentType {
@@ -43,9 +49,6 @@ play.filters.gzip {
 # CUSTOM CONFIG
 session.cookieName = "ODK_PLAY_SAKILA"
 
-# Security
-# play.filters.enabled = []
-
 play.filters.hosts {
   allowed = ["localhost:9000", ".odenktools.com", ".weedevui.com"]
 }
@@ -58,4 +61,4 @@ play.filters.cors {
   preflightMaxAge = 3 days
 }
 
-# play.filters.headers.contentSecurityPolicy = "default-src 'self'; img-src 'self' data: blob: fbcdn-profile-a.akamaihd.net *.twimg.com *.googleusercontent.com *.xingassets.com vk.com *.yimg.com secure.gravatar.com; style-src 'self' 'unsafe-inline' cdnjs.cloudflare.com maxcdn.bootstrapcdn.com fonts.googleapis.com; font-src 'self' fonts.gstatic.com fonts.googleapis.com cdnjs.cloudflare.com; script-src 'self' 'unsafe-inline' cdnjs.cloudflare.com; connect-src 'self' cdnjs.cloudflare.com twitter.com *.xing.com; frame-src"
+play.filters.headers.contentSecurityPolicy = "default-src 'self'; img-src 'self' data: blob: fbcdn-profile-a.akamaihd.net *.twimg.com *.googleusercontent.com *.xingassets.com vk.com *.yimg.com secure.gravatar.com; style-src 'self' 'unsafe-inline' cdnjs.cloudflare.com maxcdn.bootstrapcdn.com fonts.googleapis.com; font-src 'self' fonts.gstatic.com fonts.googleapis.com cdnjs.cloudflare.com; script-src 'self' 'unsafe-inline' cdnjs.cloudflare.com; connect-src 'self' cdnjs.cloudflare.com twitter.com *.xing.com; frame-src"
